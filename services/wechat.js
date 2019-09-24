@@ -8,14 +8,7 @@ export const wechatLogin = () =>
     uni.login({
       provider,
       success: async loginRes => {
-        const res = await api.wechatLogin({
-          code: loginRes.code
-        });
-        const { session_key, openid, user, token } = res.data;
-        if (user) {
-          storeUser(res.data);
-          return resolve(res);
-        }
+        return wechatGetUserInfo();
       },
       fail(err) {
         reject(err);
@@ -36,12 +29,14 @@ export const wechatGetUserInfo = () =>
       success: async userData => {
         // console.log(userData);
         try {
-          const res = await api.wechatSignup({
-            session_key: store.state.auth.session_key,
-            encryptedData: userData.encryptedData,
-            iv: userData.iv
-          });
-          storeUser(res.data);
+          // const res = await api.wechatSignup({
+          //   session_key: store.state.auth.session_key,
+          //   encryptedData: userData.encryptedData,
+          //   iv: userData.iv
+          // });
+          const { userInfo: user } = userData;
+          const res = { user };
+          storeUser(res);
           resolve(res);
         } catch (err) {
           uni.showToast({

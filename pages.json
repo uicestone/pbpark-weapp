@@ -7,7 +7,7 @@
       }
     },
     {
-      "path": "pages/park/index",
+      "path": "pages/park",
       "style": {
         "navigationBarTitleText": ""
       }

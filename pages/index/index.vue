@@ -1,24 +1,58 @@
 <template lang="pug">
   view.page
-    view.flex.flex-direction.align-center(style="margin-top: 200upx")
-      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/park/index')") 主题公园
+    login(@success="wechatGetUserInfoSuccess" @fail="wechatGetUserInfoFail")
+    img.bg.response.h-screen(:src="bgUrl" mode="aspectFill")      
+    view.flex.flex-direction.align-center(style="padding-top: 280upx")
+      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/park')") 主题公园
       button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/ranking')") 排行榜
       button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/readme')") 比赛须知
 </template>
 
 <script>
+import { wechatLogin } from "../../services";
+import { sync } from "vuex-pathify";
+import login from "../login";
+
 export default {
+  data() {
+    return {
+      bgUrl: "/static/home-bg.jpg"
+    };
+  },
   onLoad() {
-    //dev
-    this.navigateTo("/pages/exam");
+    this.checkLogin();
+  },
+  computed: {
+    auth: sync("auth")
   },
   methods: {
+    async checkLogin() {
+      try {
+        await wechatLogin();
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+    async wechatGetUserInfo(force = false) {
+      if (this.auth.user.nickName) return;
+      this.auth.showLogin = force ? "FORCE" : true;
+      return new Promise((resolve, reject) => {
+        this.wechatGetUserInfoSuccess = resolve;
+        this.wechatGetUserInfoFail = reject;
+      });
+    },
     async navigateTo(url) {
+      try {
+        await this.wechatGetUserInfo();
+      } catch (error) {
+        console.error("用户拒绝授权用户信息");
+      }
       uni.navigateTo({
         url
       });
     }
-  }
+  },
+  components: { login }
 };
 </script>
 

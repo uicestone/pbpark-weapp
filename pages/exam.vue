@@ -1,22 +1,24 @@
 <template lang="pug">
   view.page.exam
+    bg
     view.flex.flex-direction.align-center.finish(v-if="isfinished")
-      view 此次答题
-      view 共答对{{result}}题
-      view 用时{{duration}}
-      view
-        button.cu-btn.round(@click="navigateTo('/pages/ranking')") 查看排名
-      view
-        button.cu-btn.round(@click="navigateTo('/pages/index/index')") 确定
-    view.flex.flex-direction.align-center(v-else style="width:80vw;margin:0 auto;")
-      view 第{{questionNum|encodeS}}题
-      view {{curQuestion.content}}
-      view(style="align-self:flex-start;margin-top: 20upx")
+      view.margin-tb-xs 此次答题
+      view.margin-tb-xs 共答对{{result}}题
+      view.margin-tb-xs 用时{{duration}}
+      navigator(url="/pages/ranking").w-full.margin-top-lg
+        button.w-full.cu-btn.round 查看排名
+      navigator(url="/pages/index/index" redirect).w-full.margin-top-sm
+        button.w-full.cu-btn.round 确定
+    view.flex.flex-direction.align-center(v-else style="width:80vw;margin:0 auto;margin-top: 200upx")
+      view.title 第{{questionNum|encodeS}}题
+      view.content {{curQuestion.content}}
+      view.select(style="align-self:flex-start;margin-top: 20upx")
         radio-group
           label.flex.align-center.padding-tb-xs(v-for="(item, index) in curQuestion.options" :key="index" @click="selectAnswer(index)")
             radio(:checked="curQuestion.selectAnswer == index")
             view.margin-left {{item}}
-      button.cu-btn.round(@click="nextQuestion") 下一题
+      view.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0")
+        img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
 
 <script>
@@ -26,6 +28,7 @@ import { moment } from "../utils/moment";
 export default {
   data() {
     return {
+      btnUrl: "/static/next-btn.png",
       questionNum: 1,
       startTime: moment(),
       duration: null,
@@ -65,11 +68,6 @@ export default {
       this.duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false });
       this.result = _.countBy(this.questions, i => i.rightAnswer == i.selectAnswer).true || 0;
       this.isfinished = true;
-    },
-    async navigateTo(url) {
-      uni.navigateTo({
-        url
-      });
     }
   }
 };
@@ -85,6 +83,29 @@ export default {
     background #3b7bbb
     margin 0 auto
     margin-top 300upx
-    width 400upx
-    font-size 36rpx
+    width 450upx
+    font-size 40rpx
+    font-weight bold
+    button
+      font-weight 400
+  .title
+    color white
+    background #0d6bb8
+    width 100%
+    border-radius 50px
+    text-align center
+    font-size 20px
+    border 2px solid white
+    padding 2px
+    font-weight bold
+  .content
+    font-weight bold
+    margin-top 50upx
+    color #5d5c5c
+    font-size 32upx
+    line-height 1.6
+  .select
+    font-weight bold
+    color #5d5c5c
+    font-size 32upx
 </style>

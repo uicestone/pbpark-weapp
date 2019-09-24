@@ -47,4 +47,14 @@ export default {
   position absolute
 .relative
   position relative
+.fixed
+  position fixed
+.w-full
+  width 100%
+.h-full
+  width 100%
+.w-screen
+  width 100vw
+.h-screen
+  height 100vh
 </style>
