@@ -2,7 +2,7 @@
   view.page.park
     bg
     view(style="margin-top: 100upx")
-      view 远香湖党建主题公园
+      title
     navigator(url="/pages/exam")
       img.response(:src="mapUrl" mode="aspectFill" style="height: 750upx")
     view.desc {{desc}}

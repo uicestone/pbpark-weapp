@@ -4,11 +4,13 @@ import store from "./store";
 import nzhcn from "nzh/cn";
 import flagBar from "./components/flag-bar.vue";
 import Bg from "./components/bg.vue";
+import Title from "./components/title.vue";
 
 Vue.config.productionTip = false;
 
 Vue.component("flag-bar", flagBar);
 Vue.component("bg", Bg);
+Vue.component("title", Title);
 
 App.mpType = "app";
 global.store = store; // for debug

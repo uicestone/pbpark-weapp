@@ -1,6 +1,8 @@
 <template lang="pug">
   view.page.exam
     bg
+    view(style="margin-top: 100upx")
+      title
     view.flex.flex-direction.align-center.finish(v-if="isfinished")
       view.margin-tb-xs 此次答题
       view.margin-tb-xs 共答对{{result}}题

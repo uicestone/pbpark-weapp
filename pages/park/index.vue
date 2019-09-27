@@ -2,7 +2,7 @@
   view.page.park
     bg
     view(style="margin-top: 100upx")
-      view 远香湖党建主题公园
+      title
     view.relative
       img.map(:src="mapUrl" mode="scaleToFill" style="height: 750upx;z-index: -1;")
       img.absolute.point-img(:src="item.src" :class="'point-img-'+index" @click="goDetail"  mode="widthFix" v-for="(item,index) in points" :index="index" :style="[{'left': item.x, 'top': item.y}]")
