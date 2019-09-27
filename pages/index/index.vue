@@ -1,7 +1,8 @@
 <template lang="pug">
   view.page
     login(@success="wechatGetUserInfoSuccess" @fail="wechatGetUserInfoFail")
-    img.bg.response.h-screen(:src="bgUrl" mode="aspectFill")      
+    img.bg.response.h-screen(:src="bgUrl" mode="aspectFill")
+    img.logo(:src="logoUrl" mode="aspectFill")
     view.flex.flex-direction.align-center(style="padding-top: 280upx")
       button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/park/index')")
         .text 主题公园
@@ -19,7 +20,8 @@ import login from "../login";
 export default {
   data() {
     return {
-      bgUrl: "/static/home-bg.jpg"
+      bgUrl: "/static/home-bg.jpg",
+      logoUrl: "/static/logo.png"
     };
   },
   onLoad() {
@@ -63,6 +65,12 @@ export default {
 .page
   height 100vh
   width 100vw
+.logo
+  width 176.6667upx
+  height 193.3333upx
+  position absolute
+  left 50upx
+  top 50upx
 .menu-btn
   width 70vw
   height 100upx
