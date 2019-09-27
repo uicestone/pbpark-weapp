@@ -6,8 +6,8 @@
     navigator(url="/pages/exam")
       img.response(:src="mapUrl" mode="aspectFill" style="height: 750upx")
     view.desc {{desc}}
-    view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
-      img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
+    //- view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
+    //-   img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
 
 
