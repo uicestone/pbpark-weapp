@@ -1,6 +1,7 @@
 <template lang="pug">
   view.page.park
     bg
+    start-btn
     view(style="margin-top: 100upx")
       title
     navigator(url="/pages/exam")

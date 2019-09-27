@@ -2,6 +2,7 @@
   view.page.ranking
     flag-bar
     bg
+    start-btn
     view.flex.flex-direction.align-center(style="margin-top:200upx")
       view.flex.align-end(style="width:90vw")
         view.slot-1 排名

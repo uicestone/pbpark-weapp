@@ -1,6 +1,7 @@
 <template lang="pug">
   view.page
     login(@success="wechatGetUserInfoSuccess" @fail="wechatGetUserInfoFail")
+    start-btn
     img.bg.response.h-screen(:src="bgUrl" mode="aspectFill")
     img.logo(:src="logoUrl" mode="aspectFill")
     view.flex.flex-direction.align-center(style="padding-top: 280upx")

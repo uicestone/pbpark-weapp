@@ -2,6 +2,7 @@
   view.page
     flag-bar
     bg
+    start-btn
     view
       view.flex.justify-center
         img.title(:src="titleImgUrl" mode="widthFix")
