@@ -16,7 +16,6 @@ export default {
 @import 'common/colorui/main.css'
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
-
 .page
   height 100vh
   widows 100vw
@@ -35,10 +34,10 @@ export default {
   bottom 0
   left 0
   z-index -100
-.bg-purple
-  background-color #361936
-.text-purple
-  color #361936
+.bg-red
+  background-color #d32c25
+.text-red
+  color #d32c25
 .bg-orange
   background-color #e08631
 .text-orange

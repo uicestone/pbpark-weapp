@@ -2,7 +2,7 @@
     "name" : "pbpark-weapp",
     "appid" : "__UNI__991921B",
     "description" : "",
-    "versionName" : "0.1.0",
+    "versionName" : "0.2.0",
     "versionCode" : "100",
     "transformPx" : false,
     "app-plus" : {
@@ -62,7 +62,7 @@
             "es6" : false,
             "postcss" : false
         },
-        "usingComponents" : true,
+        "usingComponents" : false,
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "寻找附近的红色标记需要您的位置信息"
