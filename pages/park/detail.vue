@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      mapUrl: "/static/test-map.png",
+      mapUrl: "/static/test-detail.jpg",
       btnUrl: "/static/change-map-btn.png",
       desc:
         "远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字"
