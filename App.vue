@@ -2,6 +2,16 @@
 export default {
   onLaunch: function() {
     console.log("App Launch");
+    setInterval(() => {
+      uni.getLocation({
+        success: data => {
+          console.log(data);
+        },
+        fail: err => {
+          console.error(err);
+        }
+      });
+    }, 5000);
   },
   onShow: function() {
     console.log("App Show");
