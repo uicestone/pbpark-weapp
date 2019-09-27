@@ -3,6 +3,8 @@
     flag-bar
     bg
     start-btn
+    view.response.flex.fixed.justify-between(style="height:100upx;justify-content:center;top:0")
+      img(:src="titleUrl" mode="aspectFit" style="width:87.5%;height:320upx")
     view.flex.flex-direction.align-center(style="margin-top:200upx")
       view.flex.align-end(style="width:90vw")
         view.slot-1 排名
@@ -10,9 +12,9 @@
         view.slot-3 用时
         view.slot-4 答对数
       view.flex.align-center.ranking-item(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;background: #aed9f6")
-        view.slot-1.text-xl 44444
-        view.slot-2 王某某
-        view.slot-3 44:44:44
+        view.slot-1.text-xl 1949
+        view.slot-2 某某某
+        view.slot-3 00:10:01
         view.slot-4.text-xl 4
       view.margin-top
         view.flex.align-center.ranking-item(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="item in items" :key="item.rank")
@@ -27,18 +29,19 @@
 export default {
   data() {
     return {
+      titleUrl: "/static/ranking-title.png",
       button1Url: "/static/next-btn.png",
       items: [
-        { name: "王某某", rank: "1", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "2", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "3", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "4", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "5", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "6", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "7", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "8", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "9", spend: "44:44:44", count: 4 },
-        { name: "王某某", rank: "10", spend: "44:44:44", count: 4 }
+        { name: "朱某某", rank: "1", spend: "00:10:01", count: 10 },
+        { name: "彭某某", rank: "2", spend: "00:10:01", count: 10 },
+        { name: "林某某", rank: "3", spend: "00:10:01", count: 0 },
+        { name: "刘某某", rank: "4", spend: "00:10:01", count: 10 },
+        { name: "贺某某", rank: "5", spend: "00:10:01", count: 10 },
+        { name: "陈某某", rank: "6", spend: "00:10:01", count: 10 },
+        { name: "罗某某", rank: "7", spend: "00:10:01", count: 10 },
+        { name: "徐某某", rank: "8", spend: "00:10:01", count: 10 },
+        { name: "聂某某", rank: "9", spend: "00:10:01", count: 10 },
+        { name: "叶某某", rank: "10", spend: "00:10:01", count: 10 }
       ]
     };
   }
