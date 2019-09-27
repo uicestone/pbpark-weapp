@@ -3,9 +3,12 @@
     login(@success="wechatGetUserInfoSuccess" @fail="wechatGetUserInfoFail")
     img.bg.response.h-screen(:src="bgUrl" mode="aspectFill")      
     view.flex.flex-direction.align-center(style="padding-top: 280upx")
-      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/park/index')") 主题公园
-      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/ranking')") 排行榜
-      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/readme')") 比赛须知
+      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/park/index')")
+        .text 主题公园
+      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/ranking')")
+        .text 排行榜
+      button.cu-btn.round.bg-blue.menu-btn(@click="navigateTo('/pages/readme')")
+        .text 比赛须知
 </template>
 
 <script>
@@ -69,4 +72,6 @@ export default {
   letter-spacing 20rpx
   font-weight bold
   background #0d6bb8
+  .text
+    margin-right -20upx
 </style>
