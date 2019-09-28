@@ -1,6 +1,14 @@
 import { make } from "vuex-pathify";
 
 const state = {
+  inExam: false,
+  nearPoint: {
+    content: null,
+    id: null,
+    questions: [],
+    slug: "",
+    thumbnail_url: null
+  },
   currentPark: {
     id: null,
     points: [],

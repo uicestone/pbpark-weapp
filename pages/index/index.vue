@@ -15,7 +15,7 @@
 
 <script>
 import { wechatLogin } from "../../services";
-import { sync } from "vuex-pathify";
+import { sync, get } from "vuex-pathify";
 import login from "../login";
 
 export default {
@@ -29,10 +29,12 @@ export default {
     this.checkLogin();
   },
   computed: {
-    auth: sync("auth")
+    auth: sync("auth"),
+    isLogin: get("auth/isLogin")
   },
   methods: {
     async checkLogin() {
+      if (this.isLogin) return;
       try {
         await wechatLogin();
       } catch (error) {
@@ -40,7 +42,7 @@ export default {
       }
     },
     async wechatGetUserInfo(force = false) {
-      if (this.auth.user.nickName) return;
+      if (this.isLogin) return;
       this.auth.showLogin = force ? "FORCE" : true;
       return new Promise((resolve, reject) => {
         this.wechatGetUserInfoSuccess = resolve;

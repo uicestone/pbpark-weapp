@@ -5,7 +5,7 @@
       title
     view.flex.flex-direction.align-center.finish(v-if="isfinished")
       view.margin-tb-xs 此次答题
-      view.margin-tb-xs 共答对{{result}}题
+      view.margin-tb-xs 共答对{{correct}}题
       view.margin-tb-xs 用时{{duration}}
       navigator(url="/pages/ranking").w-full.margin-top-lg
         button.w-full.cu-btn.round 查看排名
@@ -13,12 +13,13 @@
         button.w-full.cu-btn.round 确定
     view.flex.flex-direction.align-center(v-else style="width:80vw;margin:0 auto;margin-top: 200upx")
       view.title 第{{questionNum|encodeS}}题
-      view.content {{curQuestion.content}}
+      view.content {{curQuestion.title}}
       view.select(style="align-self:flex-start;margin-top: 20upx")
         radio-group
           label.flex.align-center.padding-tb-xs(v-for="(item, index) in curQuestion.options" :key="index" @click="selectAnswer(index)")
             radio(:checked="curQuestion.selectAnswer == index")
-            view.margin-left {{item}}
+            img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="widthFix" style="max-width: 400upx")
+            view.margin-left(v-else) {{item}}
       view.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0")
         img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
@@ -26,6 +27,8 @@
 <script>
 import { _ } from "../utils";
 import { moment } from "../utils/moment";
+import { sync } from "vuex-pathify";
+import { api } from "../common/vmeitime-http";
 
 export default {
   data() {
@@ -35,41 +38,41 @@ export default {
       startTime: moment(),
       duration: null,
       isfinished: false,
-      result: 0,
-      questions: [
-        {
-          content: "1919年，《新青年》杂志发表《我的马克思主义观》一文,系统的介绍了马克思主义的唯物史观、政治经济学和科学社会主义的基本原理。这篇文章的作者是 。",
-          options: ["陈独秀", "李大钊", "李达"],
-          rightAnswer: 0
-        },
-        {
-          content: "test2",
-          options: ["1", "2", "3"],
-          rightAnswer: 0
-        }
-      ]
+      correct: 0
     };
   },
+  mounted() {
+    this.inExam = true;
+  },
   computed: {
+    inExam: sync("park/inExam"),
+    nearPoint: sync("park/nearPoint"),
+    currentPark: sync("park/currentPark"),
     curQuestion() {
-      return this.questions[this.questionNum - 1];
+      return this.nearPoint.questions[this.questionNum - 1];
     }
+  },
+  beforeDestroy() {
+    this.inExam = false;
   },
   methods: {
     selectAnswer(index) {
       this.$set(this.curQuestion, `selectAnswer`, index);
     },
     nextQuestion() {
-      if (this.questionNum == this.questions.length) {
+      if (this.questionNum == this.nearPoint.questions.length) {
         this.finish();
       } else {
         this.questionNum += 1;
       }
     },
-    finish() {
-      this.duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false });
-      this.result = _.countBy(this.questions, i => i.rightAnswer == i.selectAnswer).true || 0;
+    async finish() {
+      const duration = (this.duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false }));
+      const seconds = moment.duration(duration, "hh:mm:ss").seconds();
+      const correct = (this.correct = _.countBy(this.nearPoint.questions, i => i.trueOption == i.selectAnswer).true || 0);
+
       this.isfinished = true;
+      await api.createQuizResult({ duration: seconds, correct, point: this.nearPoint.slug, park: this.currentPark.slug });
     }
   }
 };

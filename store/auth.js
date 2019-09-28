@@ -6,7 +6,7 @@ const state = {
   token: uni.getStorageSync("token") || "",
   session_key: "",
   user: {
-    name: "",
+    name: null,
     avatarUrl: "",
     openid: "",
     customer: null
@@ -16,7 +16,8 @@ const state = {
 const mutations = make.mutations(state);
 
 const getters = {
-  avatar: state => config.parseFile(state.user.avatarUrl)
+  avatar: state => config.parseFile(state.user.avatarUrl),
+  isLogin: state => state.user.name && state.user.name !== "游客"
 };
 
 export default {

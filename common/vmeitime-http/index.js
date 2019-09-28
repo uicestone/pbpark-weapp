@@ -88,9 +88,24 @@ export const updateUser = ({ nickName, province, avatarUrl, gender } = {}) => {
   });
 };
 
+export const createQuizResult = ({ duration, correct, point, park } = {}) => {
+  return http.request({
+    method: "Post",
+    url: `/pbpark/quiz-result`,
+    dataType: "json",
+    data: {
+      duration,
+      correct,
+      point,
+      park
+    }
+  });
+};
+
 export const api = {
   updateLocation,
   getPark,
   wechatLogin,
-  updateUser
+  updateUser,
+  createQuizResult
 };

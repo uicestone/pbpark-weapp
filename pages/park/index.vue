@@ -7,7 +7,7 @@
     view.relative
       img.map(:src="mapUrl" mode="scaleToFill" style="height: 750upx;z-index: -1;")
       img.absolute.point-img(:src="item.src" :class="[item.slug]" @click="goDetail(item, index)"  mode="widthFix" v-for="(item,index) in park.points" :index="index" :style="[{'left': item.x, 'top': item.y}]")
-    view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0" @click="goExam")
+    view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
       img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
     view.desc {{park.content}}
     

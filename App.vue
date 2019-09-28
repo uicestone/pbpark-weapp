@@ -1,13 +1,22 @@
 <script>
 import { api } from "./common/vmeitime-http/";
+import { sync } from "vuex-pathify";
+import store from "./store";
 export default {
+  computed: {
+    inExam: sync("park/inExam")
+  },
   onLaunch: function() {
     console.log("App Launch");
     setInterval(() => {
+      if (this.inExam) return;
+
       uni.getLocation({
-        success: data => {
-          console.log(data);
-          api.updateLocation({ data });
+        success: async data => {
+          const {
+            data: { nearPoint }
+          } = await api.updateLocation({ data });
+          store.state.park.nearPoint = nearPoint;
         },
         fail: err => {
           console.error(err);

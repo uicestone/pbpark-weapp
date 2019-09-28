@@ -1,7 +1,7 @@
 <template lang="pug">
   view.page.park
     bg
-    start-btn
+    start-btn(v-if="nearPoint.id == point.id")
     view(style="margin-top: 100upx")
       title
     navigator(url="/pages/exam")
@@ -30,6 +30,7 @@ export default {
     };
   },
   computed: {
+    nearPoint: sync("park/nearPoint"),
     park: sync("park/currentPark")
   },
   onLoad(data) {
