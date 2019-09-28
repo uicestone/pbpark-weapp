@@ -18,4 +18,5 @@ export default {
 <style lang="stylus" scoped>
 .flag
   width 90upx
+  height 112upx
 </style>

@@ -18,10 +18,10 @@
         radio-group
           label.flex.align-center.padding-tb-xs(v-for="(item, index) in curQuestion.options" :key="index" @click="selectAnswer(index)")
             radio(:checked="curQuestion.selectAnswer == index")
-            img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="widthFix" style="max-width: 400upx")
+            img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="aspectFit" style="width: 480upx; height: 360upx")
             view.margin-left(v-else) {{item}}
       view.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0")
-        img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
+        img(:src="btnUrl" mode="widthFix" style="width: 300upx; height: 132upx")
 </template>
 
 <script>

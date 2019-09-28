@@ -32,6 +32,7 @@ export default {
 <style lang="stylus" scoped>
 .title
   width 60vw
+  height 110upx
 .content-item
   margin-bottom 50upx
   .dot

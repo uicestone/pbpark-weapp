@@ -2,7 +2,7 @@
     "name" : "pbpark-weapp",
     "appid" : "__UNI__991921B",
     "description" : "",
-    "versionName" : "0.2.0",
+    "versionName" : "0.3.0",
     "versionCode" : "100",
     "transformPx" : false,
     "app-plus" : {
@@ -57,7 +57,7 @@
         /* 小程序特有相关 */
         "appid" : "wxfb4131b288e49cd2",
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "minified" : true,
             "es6" : false,
             "postcss" : false

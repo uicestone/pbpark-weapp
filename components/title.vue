@@ -1,7 +1,7 @@
 <template lang="pug">
   view
     .flex.justify-center
-      img(:src="titleUrl" mode="widthFix")
+      img(:src="titleUrl" mode="widthFix" style="width: 536upx; height: 68upx")
     view.bar.w-full
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   data() {
     return {
-      titleUrl: "/static/title.jpg"
+      titleUrl: "/static/title.png"
     };
   }
 };

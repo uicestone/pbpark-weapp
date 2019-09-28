@@ -20,7 +20,7 @@
         view.flex.align-center.ranking-item(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="item in items" :key="item.rank")
           view.slot-1.text-xl.flex.items-center.justify-center
             text(v-if="item.rank >3") {{item.rank}}
-            img(v-else :src="'/static/rank-'+item.rank+'.png'" mode="widthFix" style="width: 65upx")
+            img(v-else :src="'/static/rank-'+item.rank+'.png'" mode="widthFix" style="width: 65upx; height: 50upx")
           view.slot-2 {{item.name}}
           view.slot-3 {{item.spend}}
           view.slot-4.text-xl {{item.count}}
