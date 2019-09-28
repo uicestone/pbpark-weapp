@@ -38,6 +38,8 @@ export default {
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
 
+image
+  will-change transform
 .page
   height 100vh
   widows 100vw
