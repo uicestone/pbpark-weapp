@@ -16,6 +16,13 @@ export default {
     return {
       btnUrl: "/static/start-btn.png"
     };
+  },
+  methods: {
+    goExam() {
+      uni.navigateTo({
+        url: "/pages/exam"
+      });
+    }
   }
 };
 </script>

@@ -1,4 +1,5 @@
 <script>
+import { api } from "./common/vmeitime-http/";
 export default {
   onLaunch: function() {
     console.log("App Launch");
@@ -6,6 +7,7 @@ export default {
       uni.getLocation({
         success: data => {
           console.log(data);
+          api.updateLocation({ data });
         },
         fail: err => {
           console.error(err);
@@ -26,6 +28,7 @@ export default {
 @import 'common/colorui/main.css'
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
+
 .page
   height 100vh
   widows 100vw

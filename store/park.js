@@ -1,8 +1,14 @@
 import { make } from "vuex-pathify";
 
 const state = {
-  selectDate: new Date(),
-  bookings: []
+  currentPark: {
+    id: null,
+    points: [],
+    content: null,
+    address: null,
+    slug: "yxh",
+    phone: null
+  }
 };
 
 const mutations = make.mutations(state);

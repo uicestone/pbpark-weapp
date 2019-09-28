@@ -5,22 +5,37 @@
     view(style="margin-top: 100upx")
       title
     navigator(url="/pages/exam")
-      img.response(:src="mapUrl" mode="aspectFill" style="height: 750upx")
-    view.desc {{desc}}
+      img.response(:src="point.thumbnail_url" mode="aspectFill" style="height: 750upx")
+    view.desc {{point.content}}
     //- view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
     //-   img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
 
 
 <script>
+import { sync } from "vuex-pathify";
 export default {
   data() {
     return {
       mapUrl: "/static/test-detail.jpg",
       btnUrl: "/static/change-map-btn.png",
       desc:
-        "远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字"
+        "远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字",
+      point: {
+        slug: null,
+        id: null,
+        thumbnail_url: null,
+        contetn: null
+      }
     };
+  },
+  computed: {
+    park: sync("park/currentPark")
+  },
+  onLoad(data) {
+    let { index } = data;
+    index = Number(index);
+    this.point = this.park.points[index];
   }
 };
 </script>

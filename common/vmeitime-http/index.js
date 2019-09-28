@@ -28,10 +28,10 @@ export const test = data => {
 };
 
 http.interceptor.request = config => {
-  const token = _.get(store, "state.auth.token");
-  if (token) {
+  const openid = _.get(store, "state.auth.user.openid");
+  if (openid) {
     config.header = {
-      Authorization: `Bearer ${token}`
+      openid
     };
   }
 
@@ -50,167 +50,24 @@ http.interceptor.response = response => {
   return response;
 };
 
-// 轮播图
-export const banner = data => {
+export const updateLocation = ({ data, mockNearPoint = 1 }) => {
   return http.request({
-    url: "/banner/36kr",
-    method: "GET",
-    data
-    // handle:true
-  });
-};
-
-export const wechatLogin = ({ code }) => {
-  return http.request({
-    url: `/wechat/login`,
     method: "POST",
-    dataType: "json",
-    data: {
-      code
-    }
-  });
-};
-
-export const wechatSignup = ({ session_key, encryptedData, iv }) => {
-  return http.request({
-    url: `/wechat/signup`,
-    method: "POST",
-    dataType: "json",
-    data: { session_key, encryptedData, iv }
-  });
-};
-
-export const wechatDecrypt = ({ session_key, encryptedData, iv }) => {
-  return http.request({
-    url: `/wechat/decrypt`,
-    method: "POST",
-    dataType: "json",
-    data: {
-      session_key,
-      encryptedData,
-      iv
-    }
-  });
-};
-
-export const updateMobile = ({ session_key, encryptedData, iv, openid }) => {
-  return http.request({
-    url: `/wechat/update-mobile`,
-    method: "POST",
-    dataType: "json",
-    data: {
-      session_key,
-      encryptedData,
-      iv,
-      openid
-    }
-  });
-};
-
-export const updateUser = ({ userId, data }) => {
-  return http.request({
-    url: `/user/${userId}`,
-    method: "PUT",
+    url: `/location?mockNearPoint=${mockNearPoint}`,
     dataType: "json",
     data
   });
 };
 
-export const getStores = () => {
+export const getPark = ({ name = "yxh" } = {}) => {
   return http.request({
-    url: `/store`,
-    method: "GET"
-  });
-};
-
-export const createBooking = ({ store, type, date, hours, checkInAt, membersCount, socksCount, code, useCredit }) => {
-  const data = _.omitBy({ store, type, date, hours, checkInAt, membersCount, socksCount, code }, _.isNil);
-  return http.request({
-    url: `/booking?useCredit=${useCredit}`,
-    method: "POST",
-    dataType: "json",
-    data
-  });
-};
-
-export const getBookingPrice = ({ store, type, date, hours, checkInAt, membersCount, socksCount, code, useCredit }) => {
-  const data = _.omitBy({ store, type, date, hours, checkInAt, membersCount, socksCount, code }, _.isNil);
-  return http.request({
-    url: `/booking-price`,
-    method: "POST",
-    dataType: "json",
-    data
-  });
-};
-
-export const userDeposit = ({ depositLevel }) => {
-  return http.request({
-    url: `/user-deposit`,
-    method: "POST",
-    dataType: "json",
-    data: {
-      depositLevel
-    }
-  });
-};
-
-export const getConfigs = () => {
-  return http.request({
-    url: `/config`,
-    method: "GET",
+    method: "Get",
+    url: `/park/${name}`,
     dataType: "json"
   });
 };
 
-export const getAvailabilityBooking = ({ type, month, date, hours }) => {
-  const data = _.omitBy({ month, date, hours }, _.isNil);
-  return http.request({
-    url: `/booking-availability/${type}`,
-    method: "GET",
-    dataType: "json",
-    data
-  });
-};
-
-export const getPayment = ({ id }) => {
-  return http.request({
-    url: `/payment/${id}`,
-    method: "GET",
-    dataType: "json"
-  });
-};
-
-export const getBooking = ({ id }) => {
-  return http.request({
-    url: `/booking/${id}`,
-    method: "GET",
-    dataType: "json"
-  });
-};
-
-export const getAuthUser = () => {
-  return http.request({
-    url: `/auth/user`,
-    method: "GET",
-    dataType: "json"
-  });
-};
-
-export const postUserMembership = ({ cardType }) => {
-  return http.request({
-    url: `/user-membership`,
-    method: "POST",
-    dataType: "json",
-    data: {
-      cardType
-    }
-  });
-};
-
-export const getBookings = () => {
-  return http.request({
-    url: `/booking`,
-    method: "GET",
-    dataType: "json"
-  });
+export const api = {
+  updateLocation,
+  getPark
 };
