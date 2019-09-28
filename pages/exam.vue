@@ -70,7 +70,6 @@ export default {
       const duration = (this.duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false }));
       const seconds = moment.duration(duration, "hh:mm:ss").seconds();
       const correct = (this.correct = _.countBy(this.nearPoint.questions, i => i.trueOption == i.selectAnswer).true || 0);
-
       this.isfinished = true;
       await api.createQuizResult({ duration: seconds, correct, point: this.nearPoint.slug, park: this.currentPark.slug });
     }
