@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  view.fixed.flex.justify-center.response(v-if="nearPoint.id" style="bottom:-10upx;left:0" @click="goExam")
+  view.fixed.flex.justify-center.response(v-show="nearPoint.id" style="bottom:-10upx;left:0" @click="goExam")
     img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
 
