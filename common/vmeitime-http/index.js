@@ -50,10 +50,17 @@ http.interceptor.response = response => {
   return response;
 };
 
+export const wechatLogin = ({ code }) => {
+  return http.request({
+    url: `/wx/auth/code-to-session?code=${code}`,
+    method: "GET"
+  });
+};
+
 export const updateLocation = ({ data, mockNearPoint = 1 }) => {
   return http.request({
     method: "POST",
-    url: `/location?mockNearPoint=${mockNearPoint}`,
+    url: `/pbpark/location?mockNearPoint=${mockNearPoint}`,
     dataType: "json",
     data
   });
@@ -62,12 +69,28 @@ export const updateLocation = ({ data, mockNearPoint = 1 }) => {
 export const getPark = ({ name = "yxh" } = {}) => {
   return http.request({
     method: "Get",
-    url: `/park/${name}`,
+    url: `/pbpark/park/${name}`,
     dataType: "json"
+  });
+};
+
+export const updateUser = ({ nickName, province, avatarUrl, gender } = {}) => {
+  return http.request({
+    method: "Post",
+    url: `/wx/auth/user-info`,
+    dataType: "json",
+    data: {
+      nickName,
+      province,
+      avatarUrl,
+      gender
+    }
   });
 };
 
 export const api = {
   updateLocation,
-  getPark
+  getPark,
+  wechatLogin,
+  updateUser
 };

@@ -8,7 +8,14 @@ export const wechatLogin = () =>
     uni.login({
       provider,
       success: async loginRes => {
-        return wechatGetUserInfo();
+        const { code } = loginRes;
+        const { data } = await api.wechatLogin({ code });
+        const { openid, session_key, user } = data;
+        await storeUser({ openid, session_key, user });
+        if (user.name !== "游客") {
+          return;
+        }
+        return wechatGetUserInfo({ openid, session_key });
       },
       fail(err) {
         reject(err);
@@ -19,7 +26,7 @@ export const wechatLogin = () =>
     });
   });
 
-export const wechatGetUserInfo = () =>
+export const wechatGetUserInfo = ({ openid, session_key }) =>
   new Promise((resolve, reject) => {
     const provider = "weixin";
     uni.showLoading();
@@ -29,13 +36,9 @@ export const wechatGetUserInfo = () =>
       success: async userData => {
         // console.log(userData);
         try {
-          // const res = await api.wechatSignup({
-          //   session_key: store.state.auth.session_key,
-          //   encryptedData: userData.encryptedData,
-          //   iv: userData.iv
-          // });
           const { userInfo: user } = userData;
-          const res = { user };
+          await api.updateUser(user);
+          const res = { user, session_key, openid };
           storeUser(res);
           resolve(res);
         } catch (err) {
@@ -55,10 +58,10 @@ export const wechatGetUserInfo = () =>
     });
   });
 
-export const storeUser = ({ user, token, session_key } = {}) => {
+export const storeUser = ({ user, openid, session_key } = {}) => {
   try {
     store.state.auth.user = user;
-    store.state.auth.token = token;
+    store.state.auth.user.openid = openid;
     store.state.auth.session_key = session_key;
     // store.state.auth.showLogin = false;
   } catch (e) {
