@@ -28,7 +28,7 @@ export const test = data => {
 };
 
 http.interceptor.request = config => {
-  const openid = _.get(store, "state.auth.user.openid");
+  const openid = _.get(store, "state.auth.openid");
   if (openid) {
     config.header = {
       openid

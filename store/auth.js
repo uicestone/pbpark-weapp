@@ -5,10 +5,10 @@ const state = {
   showLogin: false,
   token: uni.getStorageSync("token") || "",
   session_key: "",
+  openid: null,
   user: {
     name: null,
     avatarUrl: "",
-    openid: "",
     customer: null
   }
 };

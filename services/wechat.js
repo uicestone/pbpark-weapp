@@ -64,7 +64,7 @@ export const storeUser = ({ user, openid, session_key } = {}) => {
       store.state.auth.user = user;
     }
     if (openid) {
-      store.state.auth.user.openid = openid;
+      store.state.auth.openid = openid;
     }
     if (session_key) {
       store.state.auth.session_key = session_key;
