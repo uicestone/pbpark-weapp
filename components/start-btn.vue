@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { sync } from "vuex-pathify";
+import { sync, get } from "vuex-pathify";
 export default {
   props: {
     enabled: {
@@ -19,10 +19,16 @@ export default {
     };
   },
   computed: {
-    nearPoint: sync("park/nearPoint")
+    nearPoint: sync("park/nearPoint"),
+    auth: sync("auth"),
+    isLogin: get("auth/isLogin")
   },
   methods: {
-    goExam() {
+    async goExam() {
+      if (!this.isLogin) {
+        this.auth.showLogin = "FORCE";
+        return;
+      }
       uni.navigateTo({
         url: "/pages/exam"
       });
