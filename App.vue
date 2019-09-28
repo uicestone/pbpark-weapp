@@ -79,4 +79,7 @@ image, img
   width 100vw
 .h-screen
   height 100vh
+.bottom-btn
+  width 260upx
+  height 132upx
 </style>
