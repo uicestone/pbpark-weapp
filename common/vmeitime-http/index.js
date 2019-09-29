@@ -74,6 +74,14 @@ export const getPark = ({ name = "yxh" } = {}) => {
   });
 };
 
+export const getRanking = ({ name = "yxh" } = {}) => {
+  return http.request({
+    method: "Get",
+    url: `/pbpark/ranking/${name}`,
+    dataType: "json"
+  });
+};
+
 export const updateUser = ({ nickName, province, avatarUrl, gender } = {}) => {
   return http.request({
     method: "Post",
@@ -107,5 +115,6 @@ export const api = {
   getPark,
   wechatLogin,
   updateUser,
-  createQuizResult
+  createQuizResult,
+  getRanking
 };

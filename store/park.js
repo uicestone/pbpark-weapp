@@ -2,6 +2,16 @@ import { make } from "vuex-pathify";
 
 const state = {
   inExam: false,
+  ranking: {
+    myRanking: {
+      name: null,
+      id: null,
+      duration: null,
+      correct: null,
+      ranking: null
+    },
+    tops: []
+  },
   nearPoint: {
     content: null,
     id: null,
