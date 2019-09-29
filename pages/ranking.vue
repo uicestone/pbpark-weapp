@@ -65,11 +65,15 @@ export default {
     border-radius 40upx
     height 66upx
   .slot-1
-    width 150upx
+    width 135upx
+    white-space pre
+    word-wrap nowrap
+    overflow hidden
+    text-overflow ellipsis
   .slot-2
-    width 100upx
+    width 280upx
   .slot-3
-    width 250upx
+    width 135upx
   .slot-4
-    width 150upx
+    width 100upx
 </style>
