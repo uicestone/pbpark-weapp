@@ -36,8 +36,8 @@ export const wechatGetUserInfo = () =>
       success: async userData => {
         // console.log(userData);
         try {
-          const { userInfo: user } = userData;
-          await api.updateUser(user);
+          const { userInfo } = userData;
+          const { data: user } = await api.updateUser(userInfo);
           const res = { user };
           storeUser(res);
           resolve(res);
