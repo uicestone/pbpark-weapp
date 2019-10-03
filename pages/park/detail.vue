@@ -44,6 +44,7 @@ export default {
 <style lang="stylus">
 .park
   .desc
+    white-space pre-wrap
     color #595757
     font-weight bold
     font-size 12px
@@ -52,4 +53,5 @@ export default {
     margin 0 auto
     text-indent 20px
     margin-top 50upx
+    margin-bottom 100upx
 </style>
