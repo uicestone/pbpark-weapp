@@ -19,7 +19,19 @@ export default {
           store.state.park.nearPoint = nearPoint;
         },
         fail: err => {
-          console.error(err);
+          wx.showModal({
+            content: "检测到您没打开定位权限，是否去设置打开？",
+            confirmText: "确认",
+            cancelText: "取消",
+            success: function(res) {
+              if (res.confirm) {
+                return wx.openSetting({
+                  success: res => {}
+                });
+              }
+              return;
+            }
+          });
         }
       });
     }, 5000);
@@ -87,4 +99,6 @@ image, img
   height 132upx
 .h-unset
   height unset
+.tr-180
+  transform rotate(180deg)
 </style>

@@ -17,13 +17,15 @@
         view.slot-3 {{myRanking.duration | duration}}
         view.slot-4.text-xl {{myRanking.correct}}
       view
-        view.flex.align-center.ranking-item.animation-slide-bottom(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="(item, index) in ranking.tops" :key="index")
+        view.flex.align-center.ranking-item.animation-slide-bottom(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="(item, index) in tops" :key="index")
           view.slot-1.text-xl.flex.items-center.justify-center
-            text(v-if="index >2") {{index+1}}
-            img(v-else :src="'/static/rank-'+index+'.png'" mode="widthFix" style="width: 65upx; height: 50upx")
+            text(v-if="item.ranking > 3") {{item.ranking}}
+            img(v-else :src="'/static/rank-'+item.ranking+'.png'" mode="widthFix" style="width: 65upx; height: 50upx")
           view.slot-2 {{item.name}}
           view.slot-3 {{item.duration | duration}}
           view.slot-4.text-xl {{item.correct}}
+        button.cu-btn.round.flex.justify-center.response.no-bg.h-unset.margin-top(style="bottom:-10upx;left:0;" @click="nextPage" :class="{'tr-180': pageNum==1}")
+          img.arrow-button.animation-slide-bottom(src="/static/arrow.jpg" mode="widthFix")
 
 </template>
 
@@ -33,6 +35,8 @@ import { sync } from "vuex-pathify";
 export default {
   data() {
     return {
+      pageNum: 0,
+      pageSize: 13,
       titleUrl: "/static/ranking-title.png",
       button1Url: "/static/next-btn.png"
     };
@@ -41,12 +45,36 @@ export default {
     ranking: sync("park/ranking"),
     myRanking() {
       return this.ranking.myRanking;
+    },
+    tops() {
+      const { pageNum, pageSize } = this;
+      const start = pageNum * pageSize;
+      const end = start + pageSize;
+      return this.ranking.tops
+        .map((v, i) => {
+          v.ranking = i + 1;
+          return v;
+        })
+        .slice(start, end);
+    },
+    isEndPage() {
+      const { pageNum, pageSize } = this;
+      const end = pageNum * pageSize + pageSize;
+      return end >= this.ranking.tops.length;
     }
   },
   onLoad() {
     this.getRankingData();
   },
   methods: {
+    nextPage() {
+      if (this.isEndPage) {
+        if (this.pageNum == 0) return;
+        this.pageNum--;
+      } else {
+        this.pageNum++;
+      }
+    },
     async getRankingData() {
       const { data: ranking } = await api.getRanking();
       this.ranking = ranking;
@@ -77,4 +105,7 @@ export default {
     width 135upx
   .slot-4
     width 100upx
+  .arrow-button
+    width 71upx
+    height 43upx
 </style>
