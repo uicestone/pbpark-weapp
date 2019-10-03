@@ -13,7 +13,8 @@ const state = {
     gender: null,
     region: null,
     roles: []
-  }
+  },
+  location: {}
 };
 
 const mutations = make.mutations(state);

@@ -1,24 +1,22 @@
 <script>
 import { api } from "./common/vmeitime-http/";
-import { sync } from "vuex-pathify";
+import { get } from "vuex-pathify";
 import store from "./store";
 export default {
   computed: {
-    inExam: sync("park/inExam")
+    inExam: get("park/inExam"),
+    user: get("auth/user")
   },
   onLaunch: function() {
     console.log("App Launch");
-    this.updateLocation().catch(e => {
+    try {
+      this.updateLocation();
+    } catch (e) {
       this.checkPermission();
-    });
+    }
     setInterval(() => {
       if (this.inExam) return;
-      this.updateLocation().then(async data => {
-        const {
-          data: { nearPoint }
-        } = await api.updateLocation({ data });
-        store.state.park.nearPoint = nearPoint;
-      });
+      this.updateLocation();
     }, 5000);
   },
   onShow: function() {
@@ -29,8 +27,10 @@ export default {
   },
   methods: {
     async updateLocation() {
-      return new Promise((resolve, reject) => {
+      if (!this.user.id) return; // prevent call before get openid
+      const location = await new Promise((resolve, reject) => {
         uni.getLocation({
+          altitude: true,
           success: async data => {
             resolve(data);
           },
@@ -39,13 +39,29 @@ export default {
           }
         });
       });
+
+      const {
+        data: { nearPoint }
+      } = await api.updateLocation({ data: location });
+
+      store.state.auth.location = location;
+      store.state.park.nearPoint = nearPoint;
+
+      if (this.user.roles.includes("administrator")) {
+        const { latitude, longitude } = location;
+        uni.showToast({
+          icon: "none",
+          title: `${latitude.toFixed(6)},${longitude.toFixed(6)}`,
+          duration: 2500
+        });
+      }
     },
     checkPermission() {
       wx.getSetting({
         success: res => {
           if (!res.authSetting["scope.userLocation"])
             wx.showModal({
-              content: "检测到您没打开定位权限，是否去设置打开？",
+              content: "您没打开定位权限，将无法参与答题，是否去设置打开？",
               confirmText: "确认",
               cancelText: "取消",
               success: function(res) {

@@ -57,10 +57,14 @@ export const wechatLogin = ({ code }) => {
   });
 };
 
-export const updateLocation = ({ data, mockNearPoint = 1 }) => {
+export const updateLocation = ({ data, mockNearPoint = false }) => {
+  let url = `/pbpark/location`;
+  if (mockNearPoint) {
+    url += "?mockNearPoint=true";
+  }
   return http.request({
     method: "POST",
-    url: `/pbpark/location?mockNearPoint=${mockNearPoint}`,
+    url,
     dataType: "json",
     data
   });
@@ -110,11 +114,25 @@ export const createQuizResult = ({ duration, correct, point, park } = {}) => {
   });
 };
 
+export const setPointLocation = ({ pointId } = {}) => {
+  const { latitude, longitude } = store.state.auth.location;
+  return http.request({
+    method: "Put",
+    url: `/pbpark/point/${pointId}`,
+    dataType: "json",
+    data: {
+      latitude,
+      longitude
+    }
+  });
+};
+
 export const api = {
   updateLocation,
   getPark,
   wechatLogin,
   updateUser,
   createQuizResult,
-  getRanking
+  getRanking,
+  setPointLocation
 };

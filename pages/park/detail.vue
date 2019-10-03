@@ -2,6 +2,7 @@
   view.page.park
     bg
     start-btn(v-if="nearPoint.id == point.id")
+    button.set-location.fixed(v-if="user.roles.includes('administrator')" style="right:10px;bottom:10px" @click="setPointLocation") 设置位置
     view(style="margin-top: 100upx")
       title
     navigator(url="/pages/exam")
@@ -13,30 +14,35 @@
 
 
 <script>
-import { sync } from "vuex-pathify";
+import { get } from "vuex-pathify";
+import { setPointLocation } from "../../common/vmeitime-http";
 export default {
   data() {
     return {
       mapUrl: "/static/test-detail.jpg",
       btnUrl: "/static/change-map-btn.png",
-      desc:
-        "远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字远香湖党建主题公园介绍文字",
       point: {
         slug: null,
         id: null,
         thumbnail_url: null,
-        contetn: null
+        content: null
       }
     };
   },
   computed: {
-    nearPoint: sync("park/nearPoint"),
-    park: sync("park/currentPark")
+    nearPoint: get("park/nearPoint"),
+    park: get("park/currentPark"),
+    user: get("auth/user")
   },
   onLoad(data) {
     let { index } = data;
     index = Number(index);
     this.point = this.park.points[index];
+  },
+  methods: {
+    setPointLocation() {
+      setPointLocation({ pointId: this.point.id });
+    }
   }
 };
 </script>
