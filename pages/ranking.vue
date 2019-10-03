@@ -7,7 +7,7 @@
       img(:src="titleUrl" mode="aspectFit" style="width:87.5%;height:320upx")
     view.flex.flex-direction.align-center(style="margin-top:200upx")
       view.flex.align-end(style="width:90vw")
-        view.slot-1 
+        view.slot-1 排名
         view.slot-2 姓名
         view.slot-3 用时
         view.slot-4 答对数
