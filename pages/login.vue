@@ -13,7 +13,6 @@ import { sync } from "vuex-pathify";
 
 export default {
   computed: {
-    currentTab: sync("currentTab"),
     auth: sync("auth")
   },
   methods: {

@@ -7,16 +7,18 @@ const state = {
   session_key: "",
   openid: null,
   user: {
+    id: null,
     name: null,
-    avatarUrl: "",
-    customer: null
+    avatarUrl: null,
+    gender: null,
+    region: null,
+    roles: []
   }
 };
 
 const mutations = make.mutations(state);
 
 const getters = {
-  avatar: state => config.parseFile(state.user.avatarUrl),
   isLogin: state => state.user.name && state.user.name !== "游客"
 };
 

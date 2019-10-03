@@ -10,14 +10,7 @@ Vue.use(Vuex);
 pathify.options.mapping = "simple";
 
 const state = {
-  loading: false,
-  currentTab: "首页",
-  configs: {
-    cardTypes: {},
-    depositLevels: [],
-    hourPrice: null,
-    hourPriceRatio: []
-  }
+  loading: false
 };
 
 const mutations = make.mutations(state);
