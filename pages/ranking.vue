@@ -19,7 +19,7 @@
       view
         view.flex.align-center.ranking-item.animation-slide-bottom(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="(item, index) in ranking.tops" :key="index")
           view.slot-1.text-xl.flex.items-center.justify-center
-            text(v-if="index >3") {{index}}
+            text(v-if="index >2") {{index+1}}
             img(v-else :src="'/static/rank-'+index+'.png'" mode="widthFix" style="width: 65upx; height: 50upx")
           view.slot-2 {{item.name}}
           view.slot-3 {{item.duration | duration}}
