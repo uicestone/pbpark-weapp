@@ -8,32 +8,11 @@ export default {
   },
   onLaunch: function() {
     console.log("App Launch");
+    this.updateLocation();
+    this.checkPermission();
     setInterval(() => {
       if (this.inExam) return;
-
-      uni.getLocation({
-        success: async data => {
-          const {
-            data: { nearPoint }
-          } = await api.updateLocation({ data });
-          store.state.park.nearPoint = nearPoint;
-        },
-        fail: err => {
-          wx.showModal({
-            content: "检测到您没打开定位权限，是否去设置打开？",
-            confirmText: "确认",
-            cancelText: "取消",
-            success: function(res) {
-              if (res.confirm) {
-                return wx.openSetting({
-                  success: res => {}
-                });
-              }
-              return;
-            }
-          });
-        }
-      });
+      this.getLocation();
     }, 5000);
   },
   onShow: function() {
@@ -41,6 +20,39 @@ export default {
   },
   onHide: function() {
     console.log("App Hide");
+  },
+  methods: {
+    updateLocation() {
+      uni.getLocation({
+        success: async data => {
+          const {
+            data: { nearPoint }
+          } = await api.updateLocation({ data });
+          store.state.park.nearPoint = nearPoint;
+        },
+        fail: err => {}
+      });
+    },
+    checkPermission() {
+      wx.getSetting({
+        success: res => {
+          if (!res.authSetting["scope.userLocation"])
+            wx.showModal({
+              content: "检测到您没打开定位权限，是否去设置打开？",
+              confirmText: "确认",
+              cancelText: "取消",
+              success: function(res) {
+                if (res.confirm) {
+                  return wx.openSetting({
+                    success: res => {}
+                  });
+                }
+                return;
+              }
+            });
+        }
+      });
+    }
   }
 };
 </script>

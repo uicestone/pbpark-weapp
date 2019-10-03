@@ -106,6 +106,6 @@ export default {
   .slot-4
     width 100upx
   .arrow-button
-    width 71upx
-    height 43upx
+    width 60upx
+    height 29u
 </style>
