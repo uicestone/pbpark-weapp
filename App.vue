@@ -12,7 +12,7 @@ export default {
     this.checkPermission();
     setInterval(() => {
       if (this.inExam) return;
-      this.getLocation();
+      this.updateLocation();
     }, 5000);
   },
   onShow: function() {
