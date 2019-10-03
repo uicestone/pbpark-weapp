@@ -24,7 +24,7 @@
           view.slot-2 {{item.name}}
           view.slot-3 {{item.duration | duration}}
           view.slot-4.text-xl {{item.correct}}
-        button.cu-btn.round.flex.justify-center.response.no-bg.h-unset.margin-top(style="bottom:-10upx;left:0;" @click="nextPage" :class="{'tr-180': pageNum==1}")
+        button.cu-btn.round.flex.justify-center.response.no-bg.h-unset(style="bottom:-10upx;left:0;" @click="nextPage" :class="{'tr-180': pageNum==1}")
           img.arrow-button.animation-slide-bottom(src="/static/arrow.jpg" mode="widthFix")
 
 </template>
@@ -106,6 +106,5 @@ export default {
   .slot-4
     width 100upx
   .arrow-button
-    width 60upx
-    height 29u
+    width 47upx
 </style>
