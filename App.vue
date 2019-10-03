@@ -13,7 +13,12 @@ export default {
     });
     setInterval(() => {
       if (this.inExam) return;
-      this.updateLocation();
+      this.updateLocation().then(async data => {
+        const {
+          data: { nearPoint }
+        } = await api.updateLocation({ data });
+        store.state.park.nearPoint = nearPoint;
+      });
     }, 5000);
   },
   onShow: function() {
@@ -27,10 +32,6 @@ export default {
       return new Promise((resolve, reject) => {
         uni.getLocation({
           success: async data => {
-            const {
-              data: { nearPoint }
-            } = await api.updateLocation({ data });
-            store.state.park.nearPoint = nearPoint;
             resolve(data);
           },
           fail: err => {
