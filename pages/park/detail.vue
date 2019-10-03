@@ -15,11 +15,10 @@
 
 <script>
 import { get } from "vuex-pathify";
-import { setPointLocation } from "../../common/vmeitime-http";
+import { api } from "../../common/vmeitime-http";
 export default {
   data() {
     return {
-      mapUrl: "/static/test-detail.jpg",
       btnUrl: "/static/change-map-btn.png",
       point: {
         slug: null,
@@ -41,7 +40,7 @@ export default {
   },
   methods: {
     setPointLocation() {
-      setPointLocation({ pointId: this.point.id });
+      api.setPointLocation({ pointId: this.point.id });
     }
   }
 };

@@ -1,5 +1,5 @@
 import store from "../store";
-import * as api from "../common/vmeitime-http";
+import { api } from "../common/vmeitime-http";
 
 export const wechatLogin = () =>
   new Promise((resolve, reject) => {

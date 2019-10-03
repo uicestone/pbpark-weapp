@@ -1,4 +1,4 @@
-import * as api from "../common/vmeitime-http/index";
+import { api } from "../common/vmeitime-http/index";
 import store from "../store";
 
 export const fetchUser = async () => {

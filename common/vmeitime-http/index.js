@@ -1,5 +1,5 @@
 import http from "./interface";
-import _ from "lodash";
+import { _ } from "../../utils";
 import store from "../../store";
 
 /**
@@ -50,14 +50,14 @@ http.interceptor.response = response => {
   return response;
 };
 
-export const wechatLogin = ({ code }) => {
+const wechatLogin = ({ code }) => {
   return http.request({
     url: `/wx/auth/code-to-session?code=${code}`,
     method: "GET"
   });
 };
 
-export const updateLocation = ({ data, mockNearPoint = false }) => {
+const updateLocation = ({ data, mockNearPoint = false }) => {
   let url = `/pbpark/location`;
   if (mockNearPoint) {
     url += "?mockNearPoint=true";
@@ -70,7 +70,7 @@ export const updateLocation = ({ data, mockNearPoint = false }) => {
   });
 };
 
-export const getPark = ({ name = "yxh" } = {}) => {
+const getPark = ({ name = "yxh" } = {}) => {
   return http.request({
     method: "Get",
     url: `/pbpark/park/${name}`,
@@ -78,7 +78,7 @@ export const getPark = ({ name = "yxh" } = {}) => {
   });
 };
 
-export const getRanking = ({ name = "yxh" } = {}) => {
+const getRanking = ({ name = "yxh" } = {}) => {
   return http.request({
     method: "Get",
     url: `/pbpark/ranking/${name}`,
@@ -86,7 +86,7 @@ export const getRanking = ({ name = "yxh" } = {}) => {
   });
 };
 
-export const updateUser = ({ nickName, province, avatarUrl, gender } = {}) => {
+const updateUser = ({ nickName, province, avatarUrl, gender } = {}) => {
   return http.request({
     method: "Post",
     url: `/wx/auth/user-info`,
@@ -100,7 +100,7 @@ export const updateUser = ({ nickName, province, avatarUrl, gender } = {}) => {
   });
 };
 
-export const createQuizResult = ({ duration, correct, point, park } = {}) => {
+const createQuizResult = ({ duration, correct, point, park } = {}) => {
   return http.request({
     method: "Post",
     url: `/pbpark/quiz-result`,
@@ -114,7 +114,7 @@ export const createQuizResult = ({ duration, correct, point, park } = {}) => {
   });
 };
 
-export const setPointLocation = ({ pointId } = {}) => {
+const setPointLocation = ({ pointId } = {}) => {
   const { latitude, longitude } = store.state.auth.location;
   return http.request({
     method: "Put",

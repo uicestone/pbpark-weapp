@@ -1,6 +1,6 @@
 {
   "name": "pbpark-weapp",
-  "version": "1.0.0-alpha1",
+  "version": "1.0.0-alpha2",
   "description": "",
   "main": "main.js",
   "author": "",
@@ -12,7 +12,6 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "nzh": "^1.0.4",
-    "tki-qrcode": "^0.1.5",
     "vuex-pathify": "^1.2.2"
   }
 }
