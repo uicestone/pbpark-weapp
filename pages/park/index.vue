@@ -7,7 +7,7 @@
     view.relative
       img.map(:src="mapUrl" mode="scaleToFill" style="height: 750upx;z-index: -1;")
       img.absolute.point-img(:src="item.src" :class="[item.slug]" @click="goDetail(item, index)"  mode="widthFix" v-for="(item,index) in park.points" :index="index" :style="[{'left': item.x, 'top': item.y}]")
-    view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
+    view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0" @click="changeMap")
       img.bottom-btn(:src="btnUrl" mode="widthFix")
     view.desc {{park.content}}
     
@@ -63,6 +63,13 @@ export default {
     park: sync("park/currentPark")
   },
   methods: {
+    changeMap() {
+      uni.showModal({
+        title: "更多地图即将开放",
+        showCancel: false,
+        icon: "none"
+      });
+    },
     async getParkData() {
       let { data } = await api.getPark();
       data.points = data.points.map(i => ({

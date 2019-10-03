@@ -11,7 +11,7 @@
         button.w-full.cu-btn.round 查看排名
       navigator(url="/pages/index/index" redirect).w-full.margin-top-sm
         button.w-full.cu-btn.round 确定
-    view.flex.flex-direction.align-center(v-else style="width:80vw;margin:0 auto;margin-top: 200upx")
+    view.flex.flex-direction.align-center(v-else style="width:80vw;margin:0 auto;margin-top: 200upx;margin-bottom: 100upx")
       view.title 第{{questionNum|encodeS}}题
       view.content {{curQuestion.title}}
       view.select(style="align-self:flex-start;margin-top: 20upx")
