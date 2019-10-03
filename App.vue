@@ -40,21 +40,15 @@ export default {
         });
       });
 
+      const { latitude, longitude, verticalAccuracy } = location;
+      console.log("Get location:", latitude, longitude, verticalAccuracy);
+
       const {
         data: { nearPoint }
       } = await api.updateLocation({ data: location });
 
       store.state.auth.location = location;
       store.state.park.nearPoint = nearPoint;
-
-      if (this.user.roles.includes("administrator")) {
-        const { latitude, longitude } = location;
-        uni.showToast({
-          icon: "none",
-          title: `${latitude.toFixed(6)},${longitude.toFixed(6)}`,
-          duration: 2500
-        });
-      }
     },
     checkPermission() {
       wx.getSetting({
@@ -84,7 +78,6 @@ export default {
 @import 'common/colorui/main.css'
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
-
 image, img
   will-change transform
 .page
