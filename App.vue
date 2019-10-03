@@ -8,8 +8,9 @@ export default {
   },
   onLaunch: function() {
     console.log("App Launch");
-    this.updateLocation();
-    this.checkPermission();
+    this.updateLocation().catch(e => {
+      this.checkPermission();
+    });
     setInterval(() => {
       if (this.inExam) return;
       this.updateLocation();
@@ -22,15 +23,20 @@ export default {
     console.log("App Hide");
   },
   methods: {
-    updateLocation() {
-      uni.getLocation({
-        success: async data => {
-          const {
-            data: { nearPoint }
-          } = await api.updateLocation({ data });
-          store.state.park.nearPoint = nearPoint;
-        },
-        fail: err => {}
+    async updateLocation() {
+      return new Promise((resolve, reject) => {
+        uni.getLocation({
+          success: async data => {
+            const {
+              data: { nearPoint }
+            } = await api.updateLocation({ data });
+            store.state.park.nearPoint = nearPoint;
+            resolve(data);
+          },
+          fail: err => {
+            reject(err);
+          }
+        });
       });
     },
     checkPermission() {
