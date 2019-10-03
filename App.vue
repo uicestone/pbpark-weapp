@@ -37,6 +37,7 @@ export default {
 @import 'common/colorui/main.css'
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
+
 image, img
   will-change transform
 .page
@@ -47,6 +48,8 @@ image, img
   height 100upx
   text-align center
   object-fit contain
+.no-bg
+  background-color transparent !important
 .bg
   position fixed
   top 0
@@ -82,4 +85,6 @@ image, img
 .bottom-btn
   width 260upx
   height 132upx
+.h-unset
+  height unset
 </style>

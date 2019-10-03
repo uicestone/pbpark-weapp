@@ -7,8 +7,8 @@
     view.relative
       img.map(:src="mapUrl" mode="scaleToFill" style="height: 750upx;z-index: -1;")
       img.absolute.point-img(:src="item.src" :class="[item.slug]" @click="goDetail(item, index)"  mode="widthFix" v-for="(item,index) in park.points" :index="index" :style="[{'left': item.x, 'top': item.y}]")
-    view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0" @click="changeMap")
-      img.bottom-btn(:src="btnUrl" mode="widthFix")
+    button.cu-btn.round.fixed.flex.justify-center.response.no-bg.h-unset(style="bottom:-10upx;left:0" @click="changeMap")
+      img.bottom-btn.animation-slide-bottom(:src="btnUrl" mode="widthFix")
     view.desc {{park.content}}
     
 </template>

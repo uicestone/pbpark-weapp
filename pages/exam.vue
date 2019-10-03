@@ -20,7 +20,7 @@
             radio(:checked="curQuestion.selectAnswer == index")
             img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="aspectFit" style="width: 480upx; height: 360upx")
             view.margin-left(v-else) {{item}}
-      view.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0")
+      button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0")
         img.bottom-btn(:src="btnUrl" mode="widthFix")
 </template>
 

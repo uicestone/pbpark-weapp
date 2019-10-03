@@ -11,13 +11,13 @@
         view.slot-2 姓名
         view.slot-3 用时
         view.slot-4 答对数
-      view.flex.align-center.ranking-item.margin-bottom(v-if="myRanking" style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;background: #aed9f6")
+      view.flex.align-center.ranking-item.margin-bottom.animation-slide-bottom(v-if="myRanking" style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;background: #aed9f6")
         view.slot-1.text-xl {{myRanking.ranking}}
         view.slot-2 {{myRanking.name}}
         view.slot-3 {{myRanking.duration | duration}}
         view.slot-4.text-xl {{myRanking.correct}}
       view
-        view.flex.align-center.ranking-item(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="(item, index) in ranking.tops" :key="index")
+        view.flex.align-center.ranking-item.animation-slide-bottom(style="width:90vw;padding-top: 6upx;padding-bottom: 6upx;margin-bottom: 4upx" v-for="(item, index) in ranking.tops" :key="index")
           view.slot-1.text-xl.flex.items-center.justify-center
             text(v-if="index >3") {{index}}
             img(v-else :src="'/static/rank-'+index+'.png'" mode="widthFix" style="width: 65upx; height: 50upx")
@@ -64,6 +64,7 @@ export default {
     border 4upx solid #3da9e1
     border-radius 40upx
     height 66upx
+    animation-delay 0.3s
   .slot-1
     width 135upx
     white-space pre

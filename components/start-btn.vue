@@ -1,7 +1,7 @@
 
 <template lang="pug">
-  view.fixed.flex.justify-center.response(v-show="nearPoint.id" style="bottom:-10upx;left:0" @click="goExam")
-    img.bottom-btn(:src="btnUrl" mode="widthFix")
+  button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-show="nearPoint.id" style="bottom:-10upx;left:0" @click="goExam")
+    img.bottom-btn.animation-slide-bottom.fade(:src="btnUrl" mode="widthFix")
 </template>
 
 <script>
