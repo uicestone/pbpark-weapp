@@ -43,6 +43,12 @@ export default {
   },
   mounted() {
     this.inExam = true;
+    const { duration, correct } = this.nearPoint;
+    if (duration || correct) {
+      this.duration = duration;
+      this.correct = correct;
+      this.isfinished = true;
+    }
   },
   computed: {
     inExam: sync("park/inExam"),
