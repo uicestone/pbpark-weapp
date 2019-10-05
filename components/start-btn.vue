@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-show="nearPoint.id" style="bottom:-10upx;left:0" @click="goExam")
+  button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-show="nearPoint.id" style="bottom:-10upx;left:0;z-index:2" @click="goExam")
     img.bottom-btn.animation-slide-bottom.fade(:src="btnUrl" mode="widthFix")
 </template>
 
