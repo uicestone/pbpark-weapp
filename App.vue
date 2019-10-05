@@ -9,11 +9,9 @@ export default {
   },
   onLaunch: function() {
     console.log("App Launch");
-    try {
-      this.updateLocation();
-    } catch (e) {
+    this.updateLocation().catch(err => {
       this.checkPermission();
-    }
+    });
     setInterval(() => {
       if (this.inExam) return;
       this.updateLocation();
@@ -27,7 +25,6 @@ export default {
   },
   methods: {
     async updateLocation() {
-      if (!this.user.id) return; // prevent call before get openid
       const location = await new Promise((resolve, reject) => {
         uni.getLocation({
           altitude: true,
@@ -40,6 +37,7 @@ export default {
         });
       });
 
+      if (!this.user.id) return; // prevent call before get openid
       const { latitude, longitude, verticalAccuracy } = location;
       console.log("Get location:", latitude, longitude, verticalAccuracy);
 
