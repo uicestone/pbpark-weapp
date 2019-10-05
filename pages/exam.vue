@@ -6,7 +6,7 @@
     view.flex.flex-direction.align-center.finish(v-if="isfinished")
       view.margin-tb-xs 此次答题
       view.margin-tb-xs 共答对{{correct}}题
-      view.margin-tb-xs 用时{{duration}}
+      view.margin-tb-xs 用时{{duration | duration}}
       navigator(url="/pages/ranking").w-full.margin-top-lg
         button.w-full.cu-btn.round 查看排名
       navigator(url="/pages/index/index" redirect).w-full.margin-top-sm
@@ -73,8 +73,8 @@ export default {
       }
     },
     async finish() {
-      const duration = (this.duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false }));
-      const seconds = moment.duration(duration, "hh:mm:ss").seconds();
+      const duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false });
+      const seconds = (this.duraiton = moment.duration(duration, "hh:mm:ss").seconds());
       const correct = (this.correct = _.countBy(this.nearPoint.questions, i => i.trueOption == i.selectAnswer).true || 0);
       this.isfinished = true;
       await api.createQuizResult({ duration: seconds, correct, point: this.nearPoint.slug, park: this.currentPark.slug });
