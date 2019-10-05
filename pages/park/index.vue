@@ -33,12 +33,12 @@ export default {
           y: uni.upx2px(220 * 2) + "px",
           src: "/static/p2.png"
         },
-        "yxh-3": {
+        "yxh-4": {
           x: uni.upx2px(260 * 2) + "px",
           y: uni.upx2px(185 * 2) + "px",
           src: "/static/p3.png"
         },
-        "yxh-4": {
+        "yxh-6": {
           x: uni.upx2px(280 * 2) + "px",
           y: uni.upx2px(140 * 2) + "px",
           src: "/static/p4.png"
@@ -48,7 +48,7 @@ export default {
           y: uni.upx2px(126 * 2) + "px",
           src: "/static/p5.png"
         },
-        "yxh-6": {
+        "yxh-3": {
           x: uni.upx2px(103 * 2) + "px",
           y: uni.upx2px(170 * 2) + "px",
           src: "/static/p6.png"
@@ -102,7 +102,7 @@ export default {
   .yxh-1
     width 333 * 0.66666upx
     height 70 * 0.66666upx
-  .yxh-6
+  .yxh-3
     width 332 * 0.66666upx
     height 69 * 0.66666upx
   .desc
