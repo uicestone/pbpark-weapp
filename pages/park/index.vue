@@ -10,7 +10,7 @@
     button.cu-btn.round.fixed.flex.justify-center.response.no-bg.h-unset(style="bottom:-10upx;left:0" @click="changeMap")
       img.bottom-btn.animation-slide-bottom(:src="btnUrl" mode="widthFix")
     view.desc {{park.content}}
-    view(style="margin-bottom: 100upx" v-if="nearPoint.id")
+    view(style="height: 120upx")
     
 </template>
 
@@ -108,12 +108,14 @@ export default {
     width 332 * 0.66666upx
     height 69 * 0.66666upx
   .desc
+    white-space pre-wrap
     color #595757
     font-weight bold
     font-size 12px
     line-height 2
     width 90vw
     margin 0 auto
-    text-indent 20px
+    // text-indent 2em
     margin-top 50upx
+    margin-bottom 20upx
 </style>

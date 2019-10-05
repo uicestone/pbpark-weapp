@@ -8,7 +8,7 @@
     navigator(url="/pages/exam")
       img.response(:src="point.thumbnail_url" mode="aspectFill" style="height: 750upx")
     view.desc {{point.content}}
-    view(style="margin-bottom: 80upx" v-if="nearPoint.id")
+    view(style="height: 120upx" v-if="nearPoint.id == point.id")
     //- view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
     //-   img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
@@ -37,6 +37,8 @@ export default {
   onLoad(data) {
     let { slug } = data;
     this.point = this.park.points.find(i => i.slug == slug);
+    console.log(this.point);
+    uni.setNavigationBarTitle({ title: this.point.name + " 答题点" });
   },
   methods: {
     setPointLocation() {
@@ -56,7 +58,7 @@ export default {
     line-height 2
     width 90vw
     margin 0 auto
-    text-indent 20px
+    // text-indent 2em
     margin-top 50upx
     margin-bottom 20upx
 </style>
