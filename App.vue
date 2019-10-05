@@ -78,11 +78,9 @@ export default {
 @import 'common/colorui/main.css'
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
+
 image, img
   will-change transform
-.page
-  height 100vh
-  widows 100vw
 .logo
   width 100%
   height 100upx
