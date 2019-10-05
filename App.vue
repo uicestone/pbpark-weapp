@@ -42,9 +42,9 @@ export default {
       console.log("Get location:", latitude, longitude, verticalAccuracy);
 
       const {
-        data: { nearPoint }
+        data: { nearPoint, points }
       } = await api.updateLocation({ data: location });
-
+      console.log(points.map(p => p.name + p.distance).join(", "));
       store.state.auth.location = location;
       store.state.park.nearPoint = nearPoint;
     },
@@ -76,7 +76,6 @@ export default {
 @import 'common/colorui/main.css'
 @import 'common/colorui/icon.css'
 @import 'common/colorui/animation.css'
-
 image, img
   will-change transform
 .logo
