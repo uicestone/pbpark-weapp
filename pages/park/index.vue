@@ -10,13 +10,14 @@
     button.cu-btn.round.fixed.flex.justify-center.response.no-bg.h-unset(style="bottom:-10upx;left:0" @click="changeMap")
       img.bottom-btn.animation-slide-bottom(:src="btnUrl" mode="widthFix")
     view.desc {{park.content}}
+    view(style="margin-bottom: 100upx" v-if="nearPoint.id")
     
 </template>
 
 
 <script>
 import { api } from "../../common/vmeitime-http";
-import { sync } from "vuex-pathify";
+import { sync, get } from "vuex-pathify";
 export default {
   data() {
     return {
@@ -60,6 +61,7 @@ export default {
     this.getParkData();
   },
   computed: {
+    nearPoint: get("park/nearPoint"),
     park: sync("park/currentPark")
   },
   methods: {
@@ -78,9 +80,9 @@ export default {
       }));
       this.park = data;
     },
-    goDetail({ id }, index) {
+    goDetail({ id, slug }, index) {
       uni.navigateTo({
-        url: `/pages/park/detail?index=${index}`
+        url: `/pages/park/detail?slug=${slug}`
       });
     },
     goExam() {

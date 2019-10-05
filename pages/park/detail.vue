@@ -8,6 +8,7 @@
     navigator(url="/pages/exam")
       img.response(:src="point.thumbnail_url" mode="aspectFill" style="height: 750upx")
     view.desc {{point.content}}
+    view(style="margin-bottom: 80upx" v-if="nearPoint.id")
     //- view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
     //-   img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
@@ -34,9 +35,8 @@ export default {
     user: get("auth/user")
   },
   onLoad(data) {
-    let { index } = data;
-    index = Number(index);
-    this.point = this.park.points[index];
+    let { slug } = data;
+    this.point = this.park.points.find(i => i.slug == slug);
   },
   methods: {
     setPointLocation() {
@@ -58,5 +58,5 @@ export default {
     margin 0 auto
     text-indent 20px
     margin-top 50upx
-    margin-bottom 100upx
+    margin-bottom 20upx
 </style>
