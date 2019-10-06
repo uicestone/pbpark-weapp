@@ -11,6 +11,7 @@
         button.w-full.cu-btn.round 查看排名
       navigator(url="/pages/index/index" redirect).w-full.margin-top-sm
         button.w-full.cu-btn.round 确定
+      button.w-full.cu-btn.round.margin-top-sm(v-if="user.roles.includes('administrator')" @click="reExam") 重新答题
     view.flex.flex-direction.align-center(v-else style="width:80vw;margin:0 auto;margin-top: 200upx;margin-bottom: 100upx")
       view.title 第{{questionNum|encodeS}}题
       view.content {{curQuestion.title}}
@@ -27,7 +28,7 @@
 <script>
 import { _ } from "../utils";
 import { moment } from "../utils/moment";
-import { sync } from "vuex-pathify";
+import { sync, get } from "vuex-pathify";
 import { api } from "../common/vmeitime-http";
 
 export default {
@@ -51,6 +52,7 @@ export default {
     }
   },
   computed: {
+    user: get("auth/user"),
     inExam: sync("park/inExam"),
     nearPoint: sync("park/nearPoint"),
     currentPark: sync("park/currentPark"),
@@ -62,6 +64,9 @@ export default {
     this.inExam = false;
   },
   methods: {
+    reExam() {
+      this.isfinished = false;
+    },
     selectAnswer(index) {
       this.$set(this.curQuestion, `selectAnswer`, index);
     },
