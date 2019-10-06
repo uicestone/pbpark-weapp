@@ -5,7 +5,7 @@
     button.set-location.fixed(v-if="user.roles.includes('administrator')" style="right:10px;bottom:10px" @click="setPointLocation") 设置位置
     view(style="margin-top: 100upx")
       title
-    navigator(url="/pages/exam")
+    view
       img.response(:src="point.thumbnail_url" mode="aspectFill" style="height: 750upx")
     view.desc {{point.content}}
     view(style="height: 120upx" v-if="nearPoint.id == point.id")
