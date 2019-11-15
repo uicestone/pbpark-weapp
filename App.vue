@@ -3,6 +3,9 @@ import { api } from "./common/vmeitime-http/";
 import { get } from "vuex-pathify";
 import store from "./store";
 export default {
+  data: {
+    updateLocationInterval: null
+  },
   computed: {
     inExam: get("park/inExam"),
     user: get("auth/user")
@@ -12,10 +15,12 @@ export default {
     this.updateLocation().catch(err => {
       this.checkPermission();
     });
-    setInterval(() => {
-      if (this.inExam) return;
-      this.updateLocation();
-    }, 5000);
+    if (!this.updateLocationInterval) {
+      this.updateLocationInterval = setInterval(() => {
+        if (this.inExam) return;
+        this.updateLocation();
+      }, 5000);
+    }
   },
   onShow: function() {
     console.log("App Show");
@@ -27,8 +32,11 @@ export default {
     async updateLocation() {
       const location = await new Promise((resolve, reject) => {
         uni.getLocation({
-          altitude: true,
+          type: "wgs84",
+          isHighAccuracy: true,
+          highAccuracyExpireTime: 5000,
           success: async data => {
+            console.log("getLocation.success:", data);
             resolve(data);
           },
           fail: err => {
