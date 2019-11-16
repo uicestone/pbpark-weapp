@@ -2,24 +2,28 @@
 import { api } from "./common/vmeitime-http/";
 import { get } from "vuex-pathify";
 import store from "./store";
+import sleep from "./utils/sleep";
 export default {
   data: {
-    updateLocationInterval: null
+    isAndroid: null
   },
   computed: {
     inExam: get("park/inExam"),
     user: get("auth/user")
   },
-  onLaunch: function() {
+  onLaunch: async function() {
     console.log("App Launch");
-    this.updateLocation().catch(err => {
+    await this.detectPlatform();
+    try {
+      await this.updateLocation();
+    } catch (err) {
       this.checkPermission();
-    });
-    if (!this.updateLocationInterval) {
-      this.updateLocationInterval = setInterval(() => {
-        if (this.inExam) return;
-        this.updateLocation();
-      }, 5000);
+    }
+    while (true) {
+      if (!this.inExam) {
+        await this.updateLocation();
+      }
+      await sleep(1000);
     }
   },
   onShow: function() {
@@ -29,14 +33,28 @@ export default {
     console.log("App Hide");
   },
   methods: {
+    detectPlatform() {
+      return new Promise(resolve => {
+        wx.getSystemInfo({
+          success: res => {
+            if (res.platform == "android") {
+              this.isAndroid = true;
+            } else {
+              this.isAndroid = false;
+            }
+            resolve();
+          }
+        });
+      });
+    },
     async updateLocation() {
+      console.log("Getting location...");
       const location = await new Promise((resolve, reject) => {
         uni.getLocation({
           type: "wgs84",
           isHighAccuracy: true,
-          highAccuracyExpireTime: 5000,
+          highAccuracyExpireTime: 4000,
           success: async data => {
-            console.log("getLocation.success:", data);
             resolve(data);
           },
           fail: err => {
@@ -46,13 +64,24 @@ export default {
       });
 
       if (!this.user.id) return; // prevent call before get openid
-      const { latitude, longitude, verticalAccuracy } = location;
-      console.log("Get location:", latitude, longitude, verticalAccuracy);
+      const { latitude, longitude, accuracy } = location;
+      console.log("Location:", latitude, longitude, accuracy);
+
+      if (accuracy > 100) {
+        console.log("Location is not GPS, dropped.");
+        return;
+      }
+
+      if (this.isAndroid) {
+        location.latitude += 2e-4;
+        location.longitude += 1e-4;
+        console.log("Android offset applied.");
+      }
 
       const {
         data: { nearPoint, points }
       } = await api.updateLocation({ data: location });
-      console.log(points.map(p => p.name + p.distance).join(", "));
+      console.log(points.map(p => p.name + " " + p.distance.toFixed(1)).join("\n"));
       store.state.auth.location = location;
       store.state.park.nearPoint = nearPoint;
     },
