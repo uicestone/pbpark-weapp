@@ -5,7 +5,11 @@ import store from "./store";
 import sleep from "./utils/sleep";
 export default {
   data: {
-    isAndroid: null
+    isAndroid: null,
+    showModal: {
+      locationSwitch: false,
+      locationAccuracy: false
+    }
   },
   computed: {
     inExam: get("park/inExam"),
@@ -17,13 +21,14 @@ export default {
     try {
       await this.updateLocation();
     } catch (err) {
+      console.error(err);
       this.checkPermission();
     }
     while (true) {
+      await sleep(7000);
       if (!this.inExam) {
         await this.updateLocation();
       }
-      await sleep(1000);
     }
   },
   onShow: function() {
@@ -53,11 +58,17 @@ export default {
         uni.getLocation({
           type: "wgs84",
           isHighAccuracy: true,
-          highAccuracyExpireTime: 4000,
+          highAccuracyExpireTime: 3000,
           success: async data => {
             resolve(data);
           },
           fail: err => {
+            console.error(err);
+            uni.showToast({ icon: "none", title: `E${err.errCode}: ${err.errMsg}`, duration: 2000 });
+            if (err.errCode === 2 && !this.showModal.locationSwitch) {
+              uni.showModal({ showCancel: false, title: "请打开系统位置服务、蓝牙和WiFi", content: "请将系统位置服务、蓝牙和WiFi全部打开，否则可能造成定位失败或者定位不准确，无法答题！" });
+              this.showModal.locationSwitch = true;
+            }
             reject(err);
           }
         });
@@ -69,6 +80,10 @@ export default {
 
       if (accuracy > 100) {
         console.log("Location is not GPS, dropped.");
+        if (!this.showModal.locationAccuracy) {
+          uni.showModal({ showCancel: false, title: "您的定位不准确", content: "请打开WiFi、蓝牙，打开系统GPS高精确度定位，并前往开阔地带，否则参与无法答题！" });
+          this.showModal.locationAccuracy = true;
+        }
         return;
       }
 
