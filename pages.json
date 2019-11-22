@@ -53,6 +53,11 @@
       {
         "name": "调试排行榜",
         "path": "pages/ranking"
+      },
+      {
+        "name": "特定点标",
+        "path": "pages/park/index",
+        "query":"point=yxh-1"
       }
     ]
   }

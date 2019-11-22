@@ -21,6 +21,7 @@ import { sync, get } from "vuex-pathify";
 export default {
   data() {
     return {
+      params: {},
       mapUrl: "/static/test-map.png",
       btnUrl: "/static/change-map-btn.png",
       points: {
@@ -57,8 +58,16 @@ export default {
       }
     };
   },
-  onLoad() {
+  onLoad(params) {
+    console.log("onLoad", params);
+    this.params = params;
     this.getParkData();
+  },
+  mounted() {
+    const { point: slug } = this.params;
+    if (slug) {
+      this.goDetail({ slug });
+    }
   },
   computed: {
     nearPoint: get("park/nearPoint"),
