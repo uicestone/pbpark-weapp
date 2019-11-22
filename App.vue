@@ -8,7 +8,8 @@ export default {
     isAndroid: null,
     showModal: {
       locationSwitch: false,
-      locationAccuracy: false
+      locationAccuracy: false,
+      locationWifiSwitch: false
     }
   },
   computed: {
@@ -27,7 +28,11 @@ export default {
     while (true) {
       await sleep(7000);
       if (!this.inExam) {
-        await this.updateLocation();
+        try {
+          await this.updateLocation();
+        } catch (err) {
+          console.error(err);
+        }
       }
     }
   },
@@ -54,6 +59,11 @@ export default {
     },
     async updateLocation() {
       console.log("Getting location...");
+
+      if (this.isAndroid) {
+        this.tryWifi(); // detect if wifi switch is on, async
+      }
+
       const location = await new Promise((resolve, reject) => {
         uni.getLocation({
           type: "wgs84",
@@ -66,7 +76,12 @@ export default {
             console.error(err);
             uni.showToast({ icon: "none", title: `E${err.errCode}: ${err.errMsg}`, duration: 2000 });
             if (err.errCode === 2 && !this.showModal.locationSwitch) {
-              uni.showModal({ showCancel: false, title: "请打开系统位置服务、蓝牙和WiFi", content: "请将系统位置服务、蓝牙和WiFi全部打开，否则可能造成定位失败或者定位不准确，无法答题！" });
+              uni.showModal({
+                showCancel: false,
+                title: "请打开系统位置服务、蓝牙和WiFi",
+                content: "请将系统位置服务、蓝牙和WiFi全部打开，否则可能造成定位失败或者定位不准确，无法答题！",
+                success: () => (this.showModal.locationSwitch = false)
+              });
               this.showModal.locationSwitch = true;
             }
             reject(err);
@@ -81,7 +96,12 @@ export default {
       if (accuracy > 100) {
         console.log("Location is not GPS, dropped.");
         if (!this.showModal.locationAccuracy) {
-          uni.showModal({ showCancel: false, title: "您的定位不准确", content: "请打开WiFi、蓝牙，打开系统GPS高精确度定位，并前往开阔地带，否则参与无法答题！" });
+          uni.showModal({
+            showCancel: false,
+            title: "您的定位不准确",
+            content: "请打开WiFi、蓝牙，打开系统GPS高精确度定位，并前往开阔地带，否则无法答题！",
+            success: () => (this.showModal.locationAccuracy = false)
+          });
           this.showModal.locationAccuracy = true;
         }
         return;
@@ -99,6 +119,33 @@ export default {
       console.log(points.map(p => p.name + " " + p.distance.toFixed(1)).join("\n"));
       store.state.auth.location = location;
       store.state.park.nearPoint = nearPoint;
+    },
+    async tryWifi() {
+      return new Promise((resolve, reject) => {
+        wx.startWifi({
+          success: data => {
+            wx.getWifiList({
+              success: data => {
+                console.log("getWifiList.success:", data);
+                resolve();
+              },
+              fail: err => {
+                console.error(err);
+                if ([12005].includes(err.errCode) && !this.showModal.locationWifiSwitch) {
+                  uni.showModal({
+                    showCancel: false,
+                    title: "请打开系统WiFi开关",
+                    content: "尽管没有WiFi网络，仍需打开WiFi开关，否则将导致定位不准，无法答题！",
+                    success: () => (this.showModal.locationWifiSwitch = false)
+                  });
+                  this.showModal.locationWifiSwitch = true;
+                  reject(err);
+                }
+              }
+            });
+          }
+        });
+      });
     },
     checkPermission() {
       wx.getSetting({
