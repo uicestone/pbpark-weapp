@@ -21,7 +21,7 @@
             radio(:checked="curQuestion.selectAnswer == index")
             img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="aspectFit" style="width: 480upx; height: 360upx")
             view.margin-left(v-else) {{item}}
-      button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0")
+      button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0" :class="[curQuestion.selectAnswer === undefined ? 'disabled':'']")
         img.bottom-btn(:src="btnUrl" mode="widthFix")
 </template>
 
@@ -44,7 +44,7 @@ export default {
   },
   mounted() {
     this.inExam = true;
-    const { duration, correct } = this.nearPoint;
+    const { duration, correct } = this.point;
     if (duration || correct) {
       this.duration = duration;
       this.correct = correct;
@@ -55,9 +55,16 @@ export default {
     user: get("auth/user"),
     inExam: sync("park/inExam"),
     nearPoint: sync("park/nearPoint"),
+    forcePoint: sync("park/forcePoint"),
     currentPark: sync("park/currentPark"),
+    point() {
+      if (this.forcePoint && this.forcePoint.id) {
+        return this.forcePoint;
+      }
+      return this.nearPoint;
+    },
     curQuestion() {
-      return this.nearPoint.questions[this.questionNum - 1];
+      return this.point.questions[this.questionNum - 1];
     }
   },
   beforeDestroy() {
@@ -71,7 +78,8 @@ export default {
       this.$set(this.curQuestion, `selectAnswer`, index);
     },
     nextQuestion() {
-      if (this.questionNum == this.nearPoint.questions.length) {
+      if (this.curQuestion.selectAnswer === undefined) return;
+      if (this.questionNum == this.point.questions.length) {
         this.finish();
       } else {
         this.questionNum += 1;
@@ -80,9 +88,9 @@ export default {
     async finish() {
       const duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false });
       const seconds = (this.duraiton = moment.duration(duration, "hh:mm:ss").seconds());
-      const correct = (this.correct = _.countBy(this.nearPoint.questions, i => i.trueOption == i.selectAnswer).true || 0);
+      const correct = (this.correct = _.countBy(this.point.questions, i => i.trueOption == i.selectAnswer).true || 0);
       this.isfinished = true;
-      await api.createQuizResult({ duration: seconds, correct, point: this.nearPoint.slug, park: this.currentPark.slug });
+      await api.createQuizResult({ duration: seconds, correct, point: this.point.slug, park: this.currentPark.slug });
     }
   }
 };
@@ -123,4 +131,6 @@ export default {
     font-weight bold
     color #5d5c5c
     font-size 32upx
+  .disabled img
+    opacity 0.5
 </style>

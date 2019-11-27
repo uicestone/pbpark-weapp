@@ -1,7 +1,7 @@
 <template lang="pug">
   view.page.park
     bg
-    start-btn(v-if="nearPoint.id == point.id")
+    start-btn(v-if="nearPoint.id == point.id || point.questions" :point="point")
     button.set-location.fixed(v-if="user.roles.includes('administrator')" style="right:10px;bottom:10px" @click="setPointLocation") 设置位置
     view(style="margin-top: 100upx")
       title
@@ -15,7 +15,7 @@
 
 
 <script>
-import { get } from "vuex-pathify";
+import { get, sync } from "vuex-pathify";
 import { api } from "../../common/vmeitime-http";
 export default {
   data() {
@@ -35,14 +35,20 @@ export default {
     user: get("auth/user")
   },
   onLoad(data) {
-    let { slug } = data;
+    let { slug, forceStart = false } = data;
     this.point = this.park.points.find(i => i.slug == slug);
-    console.log(this.point);
     uni.setNavigationBarTitle({ title: this.point.name + " 答题点" });
+    if (forceStart) {
+      this.getPointWithQuestions();
+    }
   },
   methods: {
     setPointLocation() {
       api.setPointLocation({ pointId: this.point.id });
+    },
+    async getPointWithQuestions() {
+      this.point = (await api.getPointWithQuestions({ slug: this.point.slug })).data;
+      console.log("point with questions:", this.point);
     }
   }
 };

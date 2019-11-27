@@ -1,6 +1,7 @@
 <template lang="pug">
   view.page.park
     bg
+    login(@success="wechatGetUserInfoSuccess" @fail="wechatGetUserInfoFail")
     start-btn
     view(style="margin-top: 100upx")
       title
@@ -18,6 +19,9 @@
 <script>
 import { api } from "../../common/vmeitime-http";
 import { sync, get } from "vuex-pathify";
+import { wechatLogin } from "../../services";
+import login from "../login";
+
 export default {
   data() {
     return {
@@ -60,13 +64,14 @@ export default {
   },
   onLoad(params) {
     console.log("onLoad", params);
+    this.checkLogin();
     this.params = params;
     this.getParkData();
   },
   mounted() {
     const { point: slug } = this.params;
     if (slug) {
-      this.goDetail({ slug });
+      this.goDetail({ slug, forceStart: true });
     }
   },
   computed: {
@@ -89,14 +94,34 @@ export default {
       }));
       this.park = data;
     },
-    goDetail({ id, slug }, index) {
+    goDetail({ id, slug, forceStart = false }, index) {
+      let url = `/pages/park/detail?slug=${slug}`;
+      if (forceStart) {
+        url += "&forceStart=true";
+      }
       uni.navigateTo({
-        url: `/pages/park/detail?slug=${slug}`
+        url
       });
     },
     goExam() {
       uni.navigateTo({
         url: "/pages/exam"
+      });
+    },
+    async checkLogin() {
+      if (this.isLogin) return;
+      try {
+        await wechatLogin();
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+    async wechatGetUserInfo(force = false) {
+      if (this.isLogin) return;
+      this.auth.showLogin = force ? "FORCE" : true;
+      return new Promise((resolve, reject) => {
+        this.wechatGetUserInfoSuccess = resolve;
+        this.wechatGetUserInfoFail = reject;
       });
     }
   }

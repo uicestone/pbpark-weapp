@@ -78,6 +78,14 @@ const getPark = ({ name = "yxh" } = {}) => {
   });
 };
 
+const getPointWithQuestions = ({ slug } = {}) => {
+  return http.request({
+    method: "Get",
+    url: `/pbpark/point/${slug}?withQuestions=true`,
+    dataType: "json"
+  });
+};
+
 const getRanking = ({ name = "yxh" } = {}) => {
   return http.request({
     method: "Get",
@@ -134,5 +142,6 @@ export const api = {
   updateUser,
   createQuizResult,
   getRanking,
+  getPointWithQuestions,
   setPointLocation
 };

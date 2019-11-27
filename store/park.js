@@ -19,6 +19,13 @@ const state = {
     slug: "",
     thumbnail_url: null
   },
+  forcePoint: {
+    content: null,
+    id: null,
+    questions: [],
+    slug: "",
+    thumbnail_url: null
+  },
   currentPark: {
     id: null,
     points: [],
