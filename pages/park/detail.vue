@@ -8,11 +8,10 @@
     view
       img.response(:src="point.thumbnail_url" mode="aspectFill" style="height: 750upx")
     view.desc {{point.content}}
-    view(style="height: 120upx" v-if="nearPoint.id == point.id")
+    view(style="height: 120upx" v-if="nearPoint.id == point.id || point.questions")
     //- view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
     //-   img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
 </template>
-
 
 <script>
 import { get, sync } from "vuex-pathify";

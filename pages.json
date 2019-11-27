@@ -57,7 +57,7 @@
       {
         "name": "特定点标",
         "path": "pages/park/index",
-        "query":"point=yxh-1"
+        "query": "point=yxh-2"
       }
     ]
   }
