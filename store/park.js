@@ -13,14 +13,14 @@ const state = {
     tops: []
   },
   nearPoint: {
-    content: null,
+    content: "",
     id: null,
     questions: [],
     slug: "",
     thumbnail_url: null
   },
   forcePoint: {
-    content: null,
+    content: "",
     id: null,
     questions: [],
     slug: "",
@@ -29,7 +29,7 @@ const state = {
   currentPark: {
     id: null,
     points: [],
-    content: null,
+    content: "",
     address: null,
     slug: "yxh",
     phone: null

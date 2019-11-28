@@ -25,7 +25,6 @@ import login from "../login";
 export default {
   data() {
     return {
-      params: {},
       mapUrl: "/static/test-map.png",
       btnUrl: "/static/change-map-btn.png",
       points: {
@@ -62,14 +61,13 @@ export default {
       }
     };
   },
-  onLoad(params) {
+  async onLoad(params) {
     console.log("onLoad", params);
-    this.checkLogin();
-    this.params = params;
-    this.getParkData();
-  },
-  mounted() {
-    const { point: slug } = this.params;
+    await this.checkLogin();
+    uni.showLoading();
+    await this.getParkData();
+    uni.hideLoading();
+    const { point: slug } = params;
     if (slug) {
       this.goDetail({ slug, forceStart: true });
     }

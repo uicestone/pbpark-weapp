@@ -116,7 +116,7 @@ export default {
       const {
         data: { nearPoint, points }
       } = await api.updateLocation({ data: location });
-      console.log(points.map(p => p.name + " " + p.distance.toFixed(1)).join("\n"));
+      console.log(points.map(p => p.name + " " + (+p.distance).toFixed(1)).join("\n"));
       store.state.auth.location = location;
       store.state.park.nearPoint = nearPoint;
     },

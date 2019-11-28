@@ -13,9 +13,9 @@ export const wechatLogin = () =>
         const { openid, session_key, user } = data;
         storeUser({ openid, session_key, user });
         if (user.name !== "游客") {
-          return;
+          resolve();
         }
-        return wechatGetUserInfo();
+        resolve(wechatGetUserInfo());
       },
       fail(err) {
         reject(err);
