@@ -7,7 +7,8 @@
       title
     view
       img.response(:src="point.thumbnail_url" mode="aspectFill" style="height: 750upx")
-    view.desc {{point.content}}
+    view.desc
+      rich-text(:nodes="pointContent")
     view(style="height: 120upx" v-if="nearPoint.id == point.id || point.questions")
     //- view.fixed.flex.justify-center.response(style="bottom:-10upx;left:0")
     //-   img(:src="btnUrl" mode="widthFix" style="width: 300upx;")
@@ -31,7 +32,12 @@ export default {
   computed: {
     nearPoint: get("park/nearPoint"),
     park: get("park/currentPark"),
-    user: get("auth/user")
+    user: get("auth/user"),
+    pointContent() {
+      let content = this.point.content;
+      content = content.replace(/<p/g, '<p style="margin-bottom:0.5em;text-indent:2em"');
+      return content;
+    }
   },
   onLoad(data) {
     let { slug, forceStart = false } = data;
@@ -56,14 +62,10 @@ export default {
 <style lang="stylus">
 .park
   .desc
-    white-space pre-wrap
     color #595757
     font-weight bold
-    font-size 12px
-    line-height 2
-    width 90vw
-    margin 0 auto
-    // text-indent 2em
-    margin-top 50upx
-    margin-bottom 20upx
+    font-size 28upx
+    line-height 1.5
+    width 85vw
+    margin 50upx auto 20upx
 </style>

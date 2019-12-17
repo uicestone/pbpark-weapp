@@ -10,7 +10,8 @@
       img.absolute.point-img(:src="item.src" :class="[item.slug]" @click="goDetail(item, index)"  mode="widthFix" v-for="(item,index) in park.points" :key="item.slug" :index="index" :style="[{'left': item.x, 'top': item.y}]")
     button.cu-btn.round.fixed.flex.justify-center.response.no-bg.h-unset(style="bottom:-10upx;left:0" @click="changeMap")
       img.bottom-btn.animation-slide-bottom(:src="btnUrl" mode="widthFix")
-    view.desc {{park.content}}
+    view.desc
+      rich-text(:nodes="parkContent")
     view(style="height: 120upx")
     
 </template>
@@ -74,7 +75,12 @@ export default {
   },
   computed: {
     nearPoint: get("park/nearPoint"),
-    park: sync("park/currentPark")
+    park: sync("park/currentPark"),
+    parkContent() {
+      let content = this.park.content;
+      content = content.replace(/<p/g, '<p style="margin-bottom:0.5em;text-indent:2em"');
+      return content;
+    }
   },
   methods: {
     changeMap() {
@@ -140,14 +146,10 @@ export default {
     width 332 * 0.66666upx
     height 69 * 0.66666upx
   .desc
-    white-space pre-wrap
     color #595757
     font-weight bold
-    font-size 12px
-    line-height 2
-    width 90vw
-    margin 0 auto
-    // text-indent 2em
-    margin-top 50upx
-    margin-bottom 20upx
+    font-size 28upx
+    line-height 1.5
+    width 85vw
+    margin 50upx auto 20upx
 </style>
