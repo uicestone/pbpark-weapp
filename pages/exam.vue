@@ -18,10 +18,16 @@
       view.select(style="align-self:flex-start;margin-top: 20upx")
         radio-group
           label.flex.align-center.padding-tb-xs(v-for="(item, index) in curQuestion.options" :key="index" @click="selectAnswer(index)")
-            radio(:checked="curQuestion.selectAnswer == index")
+            radio-group(v-if="answerChecked")
+              radio.red.wrong(v-if="curQuestion.trueOption!=index&&curQuestion.selectAnswer==index" :checked="true")
+              radio(v-else-if="curQuestion.trueOption==index" :checked="true")
+              radio(v-else)
+            radio.radio(v-else :checked="curQuestion.selectAnswer==index")
             img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="aspectFit" style="width: 480upx; height: 360upx")
             view.margin-left(v-else) {{item}}
-      button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(@click="nextQuestion" style="bottom:-10upx;left:0" :class="[curQuestion.selectAnswer === undefined ? 'disabled':'']")
+      button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-if="!answerChecked" @click="checkAnswer" style="bottom:-10upx;left:0" :class="[curQuestion.selectAnswer === undefined ? 'disabled':'']")
+        img.bottom-btn(:src="btnUrl" mode="widthFix")
+      button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-else @click="nextQuestion" style="bottom:-10upx;left:0" :class="[curQuestion.selectAnswer === undefined ? 'disabled':'']")
         img.bottom-btn(:src="btnUrl" mode="widthFix")
 </template>
 
@@ -39,7 +45,8 @@ export default {
       startTime: moment(),
       duration: null,
       isfinished: false,
-      correct: 0
+      correct: 0,
+      answerChecked: false
     };
   },
   mounted() {
@@ -77,7 +84,11 @@ export default {
     selectAnswer(index) {
       this.$set(this.curQuestion, `selectAnswer`, index);
     },
+    checkAnswer() {
+      this.answerChecked = true;
+    },
     nextQuestion() {
+      this.answerChecked = false;
       if (this.curQuestion.selectAnswer === undefined) return;
       if (this.questionNum == this.point.questions.length) {
         this.finish();
@@ -133,4 +144,6 @@ export default {
     font-size 32upx
   .disabled img
     opacity 0.5
+  radio.wrong::before
+    content '\E646'
 </style>
