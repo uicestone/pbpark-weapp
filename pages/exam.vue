@@ -26,7 +26,7 @@
             img.margin-left(v-if="curQuestion.optionsAreImages" :src="item" mode="aspectFit" style="width: 480upx; height: 360upx")
             view.margin-left(v-else) {{item}}
       button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-if="!answerChecked" @click="checkAnswer" style="bottom:-10upx;left:0" :class="[curQuestion.selectAnswer === undefined ? 'disabled':'']")
-        img.bottom-btn(:src="btnUrl" mode="widthFix")
+        img.bottom-btn(:src="checkBtnUrl" mode="widthFix")
       button.cu-btn.no-bg.h-unset.fixed.flex.justify-center.response(v-else @click="nextQuestion" style="bottom:-10upx;left:0" :class="[curQuestion.selectAnswer === undefined ? 'disabled':'']")
         img.bottom-btn(:src="btnUrl" mode="widthFix")
 </template>
@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       btnUrl: "/static/next-btn.png",
+      checkBtnUrl: "/static/check-answer-btn.png",
       questionNum: 1,
       startTime: moment(),
       duration: null,
