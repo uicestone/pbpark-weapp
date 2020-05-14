@@ -5,9 +5,11 @@ export const wechatLogin = () =>
   new Promise((resolve, reject) => {
     const provider = "weixin";
     uni.showLoading();
+    console.log("Wechat login...");
     uni.login({
       provider,
       success: async loginRes => {
+        console.log("Wechat login success.");
         const { code } = loginRes;
         const { data } = await api.wechatLogin({ code });
         const { openid, session_key, user } = data;
@@ -15,6 +17,7 @@ export const wechatLogin = () =>
         if (user.name !== "游客") {
           resolve();
         }
+        console.log("Wechat get user info...");
         resolve(wechatGetUserInfo());
       },
       fail(err) {

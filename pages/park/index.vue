@@ -113,8 +113,10 @@ export default {
       });
     },
     async checkLogin() {
+      console.log("park index check login...");
       if (this.isLogin) return;
       try {
+        console.log("call wechat login");
         await wechatLogin();
       } catch (error) {
         console.warn(error);
