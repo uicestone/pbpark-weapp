@@ -16,22 +16,24 @@ export default {
     inExam: get("park/inExam"),
     user: get("auth/user")
   },
-  onLaunch: async function() {
-    console.log("App Launch");
+  onLaunch: async function(params) {
+    console.log("App Launch", params);
     await this.detectPlatform();
-    try {
-      await this.updateLocation();
-    } catch (err) {
-      console.error(err);
-      this.checkPermission();
-    }
-    while (true) {
-      await sleep(7000);
-      if (!this.inExam) {
-        try {
-          await this.updateLocation();
-        } catch (err) {
-          console.error(err);
+    if (!params.query || !params.query.point) {
+      try {
+        await this.updateLocation();
+      } catch (err) {
+        console.error(err);
+        this.checkPermission();
+      }
+      while (true) {
+        await sleep(7000);
+        if (!this.inExam) {
+          try {
+            await this.updateLocation();
+          } catch (err) {
+            console.error(err);
+          }
         }
       }
     }
