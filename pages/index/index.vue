@@ -19,6 +19,7 @@ import { sync, get } from "vuex-pathify";
 import login from "../login";
 
 export default {
+  components: { login },
   data() {
     return {
       bgUrl: "/static/home-bg.jpg",
@@ -59,8 +60,7 @@ export default {
         url
       });
     }
-  },
-  components: { login }
+  }
 };
 </script>
 
