@@ -86,11 +86,12 @@ export default {
       this.$set(this.curQuestion, `selectAnswer`, index);
     },
     checkAnswer() {
+      if (this.curQuestion.selectAnswer === undefined) return;
       this.answerChecked = true;
     },
     nextQuestion() {
-      this.answerChecked = false;
       if (this.curQuestion.selectAnswer === undefined) return;
+      this.answerChecked = false;
       if (this.questionNum == this.point.questions.length) {
         this.finish();
       } else {
@@ -99,7 +100,7 @@ export default {
     },
     async finish() {
       const duration = moment.duration(moment().diff(this.startTime)).format("hh:mm:ss", { trim: false });
-      const seconds = (this.duraiton = moment.duration(duration, "hh:mm:ss").seconds());
+      const seconds = (this.duration = moment.duration(duration, "hh:mm:ss").seconds());
       const correct = (this.correct = _.countBy(this.point.questions, i => i.trueOption == i.selectAnswer).true || 0);
       this.isfinished = true;
       await api.createQuizResult({ duration: seconds, correct, point: this.point.slug, park: this.currentPark.slug });
