@@ -24,8 +24,11 @@
           view.slot-2 {{item.name}}
           view.slot-3 {{item.duration | duration}}
           view.slot-4.text-xl {{item.correct}}
-        button.cu-btn.round.flex.justify-center.response.no-bg.h-unset(style="bottom:-10upx;left:0;" @click="nextPage" :class="{'tr-180': pageNum==1}")
-          img.arrow-button.animation-slide-bottom(src="/static/arrow.jpg" mode="widthFix")
+        view.flex.justify-center.margin-top
+          button.cu-btn.round.response.no-bg.h-unset.tr-180(style="width:120upx" @click="prevPage" v-if="!isStartPage")
+            img.arrow-button.animation-slide-bottom(src="/static/arrow.jpg" mode="widthFix")
+          button.cu-btn.round.response.no-bg.h-unset(style="width:120upx" @click="nextPage" v-if="!isEndPage")
+            img.arrow-button.animation-slide-bottom(src="/static/arrow.jpg" mode="widthFix")
 
 </template>
 
@@ -57,6 +60,9 @@ export default {
         })
         .slice(start, end);
     },
+    isStartPage() {
+      return this.pageNum === 0;
+    },
     isEndPage() {
       const { pageNum, pageSize } = this;
       const end = pageNum * pageSize + pageSize;
@@ -70,10 +76,14 @@ export default {
     nextPage() {
       if (this.isEndPage) {
         if (this.pageNum == 0) return;
-        this.pageNum--;
+        this.pageNum = 0;
       } else {
         this.pageNum++;
       }
+    },
+    prevPage() {
+      if (this.pageNum == 0) return;
+      this.pageNum--;
     },
     async getRankingData() {
       const { data: ranking } = await api.getRanking();
